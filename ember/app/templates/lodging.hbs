@@ -1,0 +1,267 @@
+<div id="wrap">
+  {{navigation-wrapper type="lodging" coverImage=model.lodging.coverImagePath user=model.user}}
+  <div id="main">
+    <div class="container overlapping-header">
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <div class="lodging-profile-picture">
+            {{#if model.lodging.profileImagePath}}
+            <img src="{{model.lodging.profileImagePath}}" alt="" />
+            {{else}}
+              <img src="/images/rPlaceholder.png" alt="" />
+            {{/if}}
+          </div>
+        </div>
+        <div class="col-xs-12 col-sm-9">
+          <h1 class="lodging-name">{{model.lodging.name}}</h1>
+          <p class="lodging-tile-rating">
+            {{star-score averageRating=model.lodging.averageRating class="lodging-tile-stars-light"}}
+            <span class="lodging-tile-ratecount lodging-tile-ratecount-light">({{model.lodging.numberOfRatings}})</span>
+            {{price-range priceRange=model.lodging.priceRange class="lodging-tile-pricernage lodging-tile-pricernage-light"}}
+            <span class="lodging-tile-foodtypes lodging-tile-foodtypes-light space-out-left">
+              {{#each model.lodging.facilities as |facility|}}<span>{{facility.name}}</span>{{/each}}
+            </span>
+          </p>
+          {{#if model.user.isLoggedIn}}
+            <button class="lodging-rate-this-button" type="button" data-toggle="modal" data-target="#submitRatingModal" {{action 'showRatingDialog'}}>{{fa-icon "star"}} Rate this place</button>
+          {{/if}}
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-xs-12 col-sm-3">
+          <ul class="lodging-navigation">
+            <li><a id="reservation" href="#reservation">Reservation</a></li>
+            <li><a id="about" href="#about">About</a></li>
+            <li><a id="areaInfo" href="#areaInfo">AreaInfo</a></li>
+            <li><a id="photos" href="#photos">Photos</a></li>
+          </ul>
+        </div>
+        <div class="col-xs-12 col-sm-9 move-up-compensate-for-overlay">
+          <div id="reservation" class="lodging-card">
+            <h2 class="lodging-card-title">Make a Free Reservation</h2>
+            <form class="reservation-form" {{action 'findRoom' on='submit'}}>
+              <select id="numberOfPeople" {{action 'setNumberOfPeople' on='change' }}>
+                <option value=1>1 Person</option>
+                <option value=2>2 People</option>
+                <option value=3>3 People</option>
+                <option value=4>4 People</option>
+                <option value=5>5 People</option>
+                <option value=6>6 People</option>
+                <option value=7>7 People</option>
+                <option value=8>8 People</option>
+              </select>
+              {{input type="date" value=date required="required" min=today}}
+              {{input type="date" value=endDate required="required" min=today}}
+              <button type="submit" class="reservation-form-button">Find Room</button>
+            </form>
+            {{#if model.didFindRoom}}
+              <h3 class="lodging-reservation-availability">Availability on {{model.response.inquiry.date}} around {{model.response.inquiry.time}} for {{model.response.inquiry.numberOfPeople}} People:</h3>
+              <p class="lodging-reservation-info">
+                <span>{{#if areAvailableRooms}}{{fa-icon "check-circle"}}{{else}}{{fa-icon "times-circle"}}{{/if}}Number of Rooms Left: {{model.response.numberOfRoomsLeft}}</span><span>{{fa-icon "info-circle"}}Reservations Today: {{model.response.numberOfReservationsToday}}</span>
+              </p>
+              {{#unless (eq model.response.numberOfRoomsLeft 0)}}
+                <h5 class="lodging-reservation-times-title">Select the best time that fits you:</h5>
+                <p class="lodging-reservation-times">
+                  {{#each model.response.timeSuggestions as |suggestion|}}
+                  <span {{action 'reserve' suggestion}}>{{suggestion}}</span>
+                  {{/each}}
+                </p>
+              {{/unless}}
+            {{/if}}
+          </div>
+          <div id="about" class="lodging-card">
+            <h2 class="lodging-card-title">About {{model.lodging.name}}</h2>
+            {{google-map
+              markerLat=model.lodging.latitude
+              markerLng=model.lodging.longitude
+              bounds=model.lodging.city.bounds
+            }}
+            <h5 class="lodging-card-subtitle">Description</h5>
+            <p class="lodging-card-bodytext">
+              {{model.lodging.description}}
+            </p>
+          </div>
+          <div id="areaInfo" class="lodging-card">
+            <h2 class="lodging-card-title floating">Area Info:</h2>
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#landmarks" data-toggle="tab">Landmarks</a></li>
+              <li><a href="#markets" data-toggle="tab">Market</a></li>
+              <li><a href="#airports" data-toggle="tab">Airports</a></li>
+            </ul>
+            <div class="row">
+              <div class="col-xs-12">
+                <div class="tab-content">
+                  <div class="tab-pane active" id="landmarks">
+                    {{#each landmarksAreaInfo as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="areaInfo-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="info-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="info-price"><span class="areaInfo-price-sign">km</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="info-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                  <div class="tab-pane" id="markets">
+                    {{#each marketsAreaInfo as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="areaInfo-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="info-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="info-price"><span class="areaInfo-price-sign">$</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="info-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                  <div class="tab-pane" id="airports">
+                    {{#each airportsAreaInfo as |item index|}}
+                    <div class="row">
+                      <div class="col-xs-12">
+                        <div class="areaInfo-item">
+                          <div class="row">
+                            <div class="col-xs-8">
+                              <h3 class="info-name">{{item.name}}</h3>
+                            </div>
+                            <div class="col-xs-4">
+                              <h4 class="info-price"><span class="areaInfo-price-sign">$</span>{{item.price}}</h4>
+                            </div>
+                          </div>
+                        </div>
+                        <div class="row">
+                          <div class="col-xs-12">
+                            <h5 class="info-description">{{item.description}}</h5>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                    {{/each}}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div id="gallery-lodging" class="lodging-card">
+            <h2 class="lodging-card-title inline">Lodgings Photo:</h2>
+
+            {{#if model.lodging.photos}}
+              {{#if seeMorePhotos}}
+                <button class="btn btn-default" {{action "toggleSeeMore"}}>See less photos</button>
+                {{#each (chunk 6 model.lodging.photos) as |photoRow|}}
+                  <div class="row">
+                    {{#each photoRow as |photo|}}
+                      <div class="col-md-2">
+                        <img src="{{photo.path}}" alt="gallery photo" class="img-responsive">
+                      </div>
+                    {{/each}}
+                  </div>
+                {{/each}}
+
+              {{else}}
+                <button class="btn btn-default" {{action "toggleSeeMore"}}>See more photos ({{model.lodging.photos.length}})</button>
+              <div class="row">
+                <div class="col-md-6">
+                  <img src="{{model.lodging.photos.[0].path}}" alt="Lodging photo" class="img-responsive"/>
+                </div>
+                <div class="col-md-6">
+                  <div class="row gallery-lodging-right">
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[1]}}
+                      <img src="{{model.lodging.photos.[1].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[2]}}
+                        <img src="{{model.lodging.photos.[2].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                  </div>
+                  <div class="row gallery-lodging-right">
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[3]}}
+                        <img src="{{model.lodging.photos.[3].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[4]}}
+                        <img src="{{model.lodging.photos.[4].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                  </div>
+                  <div class="row gallery-lodging-right">
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[5]}}
+                        <img src="{{model.lodging.photos.[5].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                    <div class="col-md-6">
+                      {{#if model.lodging.photos.[6]}}
+                        <img src="{{model.lodging.photos.[6].path}}" alt="Lodging photo" class="img-responsive"/>
+                      {{/if}}
+                    </div>
+                  </div>
+                </div>
+              </div>
+              {{/if}}
+
+            {{else}}
+            <div>No pictures available for this lodging.</div>
+            {{/if}}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="modal fade" id="submitRatingModal" tabindex="-1" role="dialog" aria-labelledby="ratingModalLabel">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <h4 class="modal-title" id="ratingModalLabel">Rate this place</h4>
+      <button type="button" class="close close-modal-button" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <form>
+        <div class="rating-control" id="rating-control">
+          {{#radio-button value=1 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=2 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=3 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=4 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+          {{#radio-button value=5 groupValue=review_score changed="ratingChanged"}}{{fa-icon "star"}}{{/radio-button}}
+        </div>
+        {{textarea class="review-textarea" type="text" placeholder="Write a Review" value=review_text required="required"}}
+        <button class="submit-review-button" {{action "submitReviewAction"}}>Save</button>
+        {{#if model.hasError}}
+          <p class="error-message">{{model.errorMessage}}</p>
+        {{/if}}
+    </form>
+    </div>
+  </div>
+</div>
+
+
+
+

@@ -1,0 +1,16 @@
+<div class="lodging-tile">
+  {{#link-to "lodging" data.id}}
+    <div class="lodging-tile-image" style={{tileStyle}}></div>
+    <h3 class="lodging-tile-name">{{data.name}}</h3>
+    <p class="lodging-tile-rating">
+      {{star-score averageRating=data.starRating}}
+      <span class="lodging-tile-ratecount">({{data.numberOfRatings}})</span>
+      {{price-range priceRange=data.priceRange class="lodging-tile-pricernage"}}
+    </p>
+    <hr class="lodging-tile-separator">
+    <p class="lodging-tile-foodtypes">
+      {{#each data.facilities as |facility|}}<span>{{facility.name}}</span>{{/each}}
+    </p>
+    <button class="reserve-now-button {{buttonStyle}}-button" type="button">Reserve Now</button>
+  {{/link-to}}
+</div>

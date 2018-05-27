@@ -1,0 +1,46 @@
+<div class="row">
+  <div class="col-xs-12 col-sm-4 col-lg-3">
+    {{#link-to 'admin.lodgings' class="admin-statistic-link"}}
+    <div class="admin-statistic">
+      <h3>{{model.statistics.numberOfLodgings}}</h3>
+      <p>
+        Lodgings
+      </p>
+      {{#link-to 'admin.lodgings.new'}}Add Lodging{{/link-to}}
+    </div>
+    {{/link-to}}
+  </div>
+  <div class="col-xs-12 col-sm-4 col-lg-3">
+    {{#link-to 'admin.facilities' class="admin-statistic-link"}}
+    <div class="admin-statistic">
+      <h3>{{model.statistics.numberOfFacilities}}</h3>
+      <p>
+        Facilities
+      </p>
+      {{#link-to 'admin.facilities.new'}}Add Facility{{/link-to}}
+    </div>
+    {{/link-to}}
+  </div>
+  <div class="col-xs-12 col-sm-4 col-lg-3">
+    {{#link-to 'admin.locations' class="admin-statistic-link"}}
+    <div class="admin-statistic">
+      <h3>{{model.statistics.numberOfLocations}}</h3>
+      <p>
+        Locations
+      </p>
+      {{#link-to 'admin.locations.new'}}Add Location{{/link-to}}
+    </div>
+    {{/link-to}}
+  </div>
+  <div class="col-xs-12 col-sm-4 col-lg-3">
+    {{#link-to 'admin.users' class="admin-statistic-link"}}
+    <div class="admin-statistic">
+      <h3>{{model.statistics.numberOfUsers}}</h3>
+      <p>
+        Users
+      </p>
+      {{#link-to 'admin.users.new'}}Add User{{/link-to}}
+    </div>
+    {{/link-to}}
+  </div>
+</div>

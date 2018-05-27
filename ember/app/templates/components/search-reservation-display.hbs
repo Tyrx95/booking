@@ -1,0 +1,18 @@
+{{#if hasError}}
+  {{errorMessage}}
+{{else}}
+  Reservations Today: {{inquiryResponse.numberOfReservationsToday}}
+  Rooms Left: {{inquiryResponse.numberOfRoomsLeft}}
+  {{#if inquiryResponse.dateSuggestions}}
+    <h5 class="lodging-reservation-times-title">Select the best date that fits you:</h5>
+    <p class="lodging-reservation-times">
+      {{#each inquiryResponse.dateSuggestions as |suggestion|}}
+        <span {{action 'reserve' suggestion.startDate suggestion.endDate}}>{{millis-to-date suggestion.startDate}} - {{millis-to-date suggestion.endDate}}</span>
+      {{/each}}
+    </p>
+  {{else}}
+    <h5 class="lodging-reservation-times-no-rooms">There are no rooms available at the specified time period.</h5>
+  {{/if}}
+
+
+{{/if}}

@@ -1,0 +1,15 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">All Lodgings</h1>
+  {{#link-to 'admin.lodgings.new' class="admin-from-new-button"}}Add new Lodging{{/link-to}}
+  <ul class="admin-form-object-list">
+    {{#each model.lodgings.model as |lodging|}}
+    <li class="admin-form-object-list-item">
+      {{#link-to 'lodging' lodging.id}}<h3>{{lodging.name}}</h3>{{/link-to}}
+      {{#link-to 'admin.lodgings.delete' lodging.id class="list-item-button"}}Delete{{/link-to}}
+      {{#link-to 'admin.lodgings.edit' lodging.id class="list-item-button"}}Edit{{/link-to}}
+      {{#link-to 'admin.lodgings.reservations' lodging.id class="list-item-button"}}Reservations{{/link-to}}
+    </li>
+    {{/each}}
+  </ul>
+  {{page-numbers currentPage=model.lodgings.pageNumber maxPages=model.lodgings.numberOfPages smallMargins=true}}
+</div>

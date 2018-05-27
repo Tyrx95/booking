@@ -1,0 +1,13 @@
+<div class="admin-form">
+  <h1 class="admin-from-title">All Facilities</h1>
+  {{#link-to 'admin.facilities.new' class="admin-from-new-button"}}Add new Facility{{/link-to}}
+  <ul class="admin-form-object-list">
+    {{#each model.facilities as |facility|}}
+    <li class="admin-form-object-list-item">
+      <h3>{{facility.name}}</h3>
+      {{#link-to 'admin.facilities.delete' facility.id class="list-item-button"}}Delete{{/link-to}}
+      {{#link-to 'admin.facilities.edit' facility.id class="list-item-button"}}Edit{{/link-to}}
+    </li>
+    {{/each}}
+  </ul>
+</div>

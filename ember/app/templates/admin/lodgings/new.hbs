@@ -1,0 +1,292 @@
+<div class="admin-tabs-container">
+  <ul class="admin-tabs" role="tablist">
+    <li role="presentation" class="active"><a href="#basics" aria-controls="basics" role="tab" data-toggle="tab">Basic Details</a></li>
+    <li role="presentation"><a href="#facility" aria-controls="facility" role="tab" data-toggle="tab">Facilities</a></li>
+    <li role="presentation"><a href="#rooms" aria-controls="rooms" role="tab" data-toggle="tab">Rooms</a></li>
+    <li role="presentation"><a href="#areaInfo" aria-controls="areaInfo" role="tab" data-toggle="tab">Area Info</a></li>
+    <li role="presentation"><a href="#gallery" aria-controls="gallery" role="tab" data-toggle="tab">Gallery</a></li>
+  </ul>
+</div>
+
+
+<form {{action 'submitLodging' on='submit'}}>
+  <div class="tab-content">
+    <div role="tabpanel" class="tab-pane active" id="basics">
+      <div class="admin-form">
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            <div class="row">
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="admin-from-title">Add Logo</h1>
+                <div class="admin-form-image-profile" style={{profileImageStyle}}>
+                  <label class="image-upload-label" for="profileImageUpload">
+                    {{#if uploadProgressProfile}}
+                    <p class="image-upload-progress">
+                      Uploading: {{uploadProgressProfile}}%
+                    </p>
+                    {{/if}}
+                    {{fa-icon "fa-cloud-upload"}}Upload Logo
+                  </label>
+                  {{file-upload id="profileImageUpload" url="/api/v1/admin/fileUpload" model=model imageFor="profile" progress=uploadProgressProfile onFinishedUpload=(action 'uploadedImage')}}
+                </div>
+              </div>
+              <div class="col-xs-12 col-sm-6">
+                <h1 class="admin-from-title">Price Range</h1>
+                <div id="pricerange-control">
+                  {{#radio-button value=1 groupValue=model.lodging.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeOne}}{{/radio-button}}
+                  {{#radio-button value=2 groupValue=model.lodging.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeTwo}}{{/radio-button}}
+                  {{#radio-button value=3 groupValue=model.lodging.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeThree}}{{/radio-button}}
+                  {{#radio-button value=4 groupValue=model.lodging.priceRange changed="priceRangeChanged"}}{{fa-icon "usd" class=isRangeFour}}{{/radio-button}}
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <h1 class="admin-from-title">Add Cover Photo</h1>
+            <div class="admin-form-image-cover" style={{coverImageStyle}}>
+              <label class="image-upload-label" for="coverImageUpload">
+                {{#if uploadProgressCover}}
+                  <p class="image-upload-progress">
+                    Uploading: {{uploadProgressCover}}%
+                  </p>
+                {{/if}}
+                {{fa-icon "fa-cloud-upload"}}Upload Cover Photo
+              </label>
+              {{file-upload id="coverImageUpload" url="/api/v1/admin/fileUpload" model=model imageFor="cover" progress=uploadProgressCover onFinishedUpload=(action 'uploadedImage')}}
+            </div>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Lodging Name' value=model.lodging.name required="required"}}
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            <select class='form-input' id="city-select" {{action 'setCity' on='change'}}>
+              {{#each model.cities as |city|}}
+              <option value={{city.id}} selected={{eq model.lodging.city.id city.id}}>{{city.name}}</option>
+              {{/each}}
+            </select>
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{textarea class="form-input" type="text" placeholder="Description" value=model.lodging.description required="required"}}
+          </div>
+          <div class="col-xs-12 col-sm-6 small-map">
+            {{google-map marker=marker polygon=polygon defaultMerkerPosition=defaultMerkerPosition bounds=model.lodging.city.bounds markerLat=model.lodging.latitude markerLng=model.lodging.longitude canEditMarker=true}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Address' value=model.lodging.address}}
+          </div>
+          <div class="col-xs-12 col-sm-6">
+            {{input class='form-input' type='text' placeholder='Phone' value=model.lodging.phone}}
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12 col-sm-6">
+          </div>
+        </div>
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.lodgings' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Lodging</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="facility">
+      <div class="admin-form">
+
+        {{#multiselect-checkboxes class="hidden-chackboxes" options=facilityPrimitives selection=selectedFacilityPrimitives as |facility isSelected|}}
+          <li>
+            <label class="{{if isSelected 'active'}}">
+              {{input type="checkbox" checked=isSelected}}
+              {{facility}}
+            </label>
+          </li>
+        {{/multiselect-checkboxes}}
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.lodgings' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Lodging</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="rooms">
+      <div class="admin-form">
+
+        <h1 class="admin-from-title">Rooms</h1>
+
+        <button {{action 'addRoom'}} class="admin-from-new-button grey">Add Room</button>
+
+        <div class="row">
+          {{#each model.lodging.rooms as |room index|}}
+          <div class="col-xs-12 col-sm-6 col-md-4 col-lg-3">
+            <label class="room-box">
+              <span>{{lodging-room-enum index}}.</span>Room for {{input type="number" min=1 max=8 value=room.numberOfRooms}} People
+              {{input type="text" value=room.price placeholder="Price"}} $
+              <button {{action 'removeRoom' room.id}}>{{fa-icon 'trash'}}</button>
+            </label>
+          </div>
+          {{/each}}
+        </div>
+
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.lodgings' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Lodging</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div role="tabpanel" class="tab-pane" id="areaInfo">
+      <div class="admin-form">
+
+        <div class="row">
+          <div class="col-xs-12">
+            <ul class="nav nav-pills">
+              <li class="active"><a href="#landmarks" data-toggle="tab">Landmarks</a></li>
+              <li><a href="#markets" data-toggle="tab">Market</a></li>
+              <li><a href="#airports" data-toggle="tab">Airports</a></li>
+            </ul>
+          </div>
+        </div>
+        <div class="row areaInfo-content">
+          <div class="col-xs-12">
+            <div class="tab-content">
+              <div class="tab-pane active" id="landmarks">
+                {{#each model.lodging.areaInfo.landmarks as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 areaInfo-enum">
+                    {{lodging-room-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="areaInfo-input"}}
+                        <span class="areaInfo-price-sign">km</span>{{input type="number" value=item.price placeholder="Distance" class="areaInfo-input" step="1" min=0}}<button {{action 'removeLandmarksItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="areaInfo-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="areaInfo-add-button" {{action 'addAreaInfoLandmarks'}}>Add Item</button>
+              </div>
+              <div class="tab-pane" id="markets">
+                {{#each model.lodging.areaInfo.markets as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 areaInfo-enum">
+                    {{lodging-room-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="areaInfo-input"}}
+                        <span class="areaInfo-price-sign">km</span>{{input type="number" value=item.price placeholder="Distance" class="areaInfo-input" step="1" min=0}}<button {{action 'removeMarketItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="areaInfo-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="areaInfo-add-button" {{action 'addAreaInfoMarket'}}>Add Item</button>
+              </div>
+              <div class="tab-pane" id="airports">
+                {{#each model.lodging.areaInfo.airports as |item index|}}
+                <div class="row">
+                  <div class="col-xs-1 areaInfo-enum">
+                    {{lodging-room-enum index}}.
+                  </div>
+                  <div class="col-xs-11">
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.name placeholder="Name" class="areaInfo-input"}}
+                        <span class="areaInfo-price-sign">km</span>{{input type="number" value=item.price placeholder="Distance" class="areaInfo-input" step="1" min=0}}<button {{action 'removeAirportsItem' item}}>{{fa-icon 'trash'}}</button>
+                      </div>
+                    </div>
+                    <div class="row">
+                      <div class="col-xs-12">
+                        {{input type="text" value=item.description placeholder="Description" class="areaInfo-input"}}
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                {{/each}}
+                <button class="areaInfo-add-button" {{action 'addAreaInfoAirports'}}>Add Item</button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.lodgings' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Lodging</button>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div role="tabpanel" class="tab-pane" id="gallery">
+      <div class="admin-form">
+
+        <h1 class="admin-from-title">Photos</h1>
+
+        <div class="admin-form-photos-add">
+          <label class="image-upload-label-gallery" for="galleryImageUpload">
+            {{#if uploadProgressGallery}}
+              <p class="image-upload-progress">
+                Uploading: {{uploadProgressGallery}}%
+              </p>
+            {{/if}}
+            Add photos
+          </label>
+          {{file-upload id="galleryImageUpload"
+            url="/api/v1/admin/fileUpload"
+            model=model
+            imageFor="gallery"
+            progress=uploadProgressGallery
+            onFinishedUpload=(action 'uploadedGalleryImage')}}
+        </div>
+
+
+
+        {{#each (chunk 6 model.lodging.photos) as |photoRow|}}
+        <div class="row">
+          {{#each photoRow as |photo|}}
+            <div class="col-md-2">
+              <img src="{{photo.path}}" alt="gallery photo" class="img-responsive">
+              <button {{action 'removePhoto' photo}} class="btn-remove-photo">{{fa-icon 'trash'}}</button>
+            </div>
+          {{/each}}
+        </div>
+        {{/each}}
+
+        <div class="row">
+          <div class="col-xs-12" style="text-align: right">
+            {{#link-to 'admin.lodgings' class="form-button form-button-small form-button-grey"}}Cancel{{/link-to}}
+            <button class="form-button form-button-small" type="submit">{{if model.isEdit 'Edit' 'Add'}} Lodging</button>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </div>
+
+</form>

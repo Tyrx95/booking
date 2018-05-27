@@ -1,0 +1,67 @@
+<div id="wrap" class="white-wrapeer">
+  {{#navigation-wrapper type="homepage" coverImage="/images/background.png" user=model.user}}
+
+  <h1>Make a room reservation</h1>
+  <h3>Choose a room from {{model.numberOfRastaurants}} lodging establishments near you</h3>
+
+  <form class="search-box room-search-box" {{action 'findRoom' on='submit'}}>
+    <label for="search">{{fa-icon "search"}}</label>
+    {{input id='search' class="search-textbox" placeholder='Location, Lodging or Facility' value=lodging_name}}
+    <select class="index-room-search-input" id="numberOfPeople" {{action 'setNumberOfPeople' on='change' }}>
+      <option value=1>1 Person</option>
+      <option value=2 selected>2 People</option>
+      <option value=3>3 People</option>
+      <option value=4>4 People</option>
+      <option value=5>5 People</option>
+      <option value=6>6 People</option>
+      <option value=7>7 People</option>
+      <option value=8>8 People</option>
+    </select>
+    {{input class="index-room-search-input" id='date' type='date' min=todayDate value=date required="required"}}
+    {{input class="index-room-search-input" id='endDate' type='date' value=endDate min = minEndDate required="required"}}
+    {{log 'minEnd' minEndDate}}
+    <button class="room-search-button" type="submit">Find a room</button>
+  </form>
+  {{#if errorMessage}}
+  <p>{{errorMessage}}</p>
+  {{/if}}
+
+  {{/navigation-wrapper}}
+
+  <div id="main">
+    {{#if geolocation}}
+    <div class="container popularLodgings">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="section-title">Lodgings Near You</h1>
+        </div>
+      </div>
+      <div class="row">
+        {{#each nearbyLodgings as |lodging|}}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          {{lodging-tile data=lodging buttonStyle="grey"}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+    {{#if hasPopularLodgings}}
+    <div class="container popularLodgings">
+      <div class="row">
+        <div class="col-xs-12">
+          <h1 class="section-title">Popular Today</h1>
+        </div>
+      </div>
+      <div class="row">
+        {{#each model.popularLodgings as |lodging|}}
+        <div class="col-xs-12 col-sm-6 col-md-4">
+          {{lodging-tile data=lodging buttonStyle="grey"}}
+        </div>
+        {{/each}}
+      </div>
+    </div>
+    {{/if}}
+
+    {{popular-locations locations=model.popularLocations}}
+  </div>
+</div>
