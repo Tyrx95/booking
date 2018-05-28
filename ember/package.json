@@ -39,6 +39,7 @@
     "ember-countdown": "0.0.10",
     "ember-data": "^2.7.0",
     "ember-export-application-global": "^1.0.5",
+    "ember-flatpickr": "2.5.0",
     "ember-font-awesome": "2.2.0",
     "ember-load-initializers": "^0.5.1",
     "ember-multiselect-checkboxes": "0.10.1",
