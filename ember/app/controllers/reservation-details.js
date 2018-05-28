@@ -49,6 +49,16 @@ export default Ember.Controller.extend({
     confirmReservation() {
       this.set('model.reservation.user', this.get('model.user.object'));
       this.set('reservationConfirmed', true);
+      let date = new Date(this.get('model.reservation.startDate'));
+      date.setDate(date.getDate()+1);
+      let endDate = new Date(this.get('model.reservation.endDate'));
+      endDate.setDate(endDate.getDate()+1);
+      date = date.toISOString().substring(0, 10);
+      endDate= endDate.toISOString().substring(0, 10);
+      this.set('model.reservation.startDate', date);
+      this.set('model.reservation.endDate', endDate);
+      let reservedOn = new Date(this.get('model.reservation.reservedOn'));
+      this.set('model.reservation.reservedOn', reservedOn.getTime());
       this.get('ajax').post('/confirmReservation', {
         xhrFields: {
           withCredentials: true,

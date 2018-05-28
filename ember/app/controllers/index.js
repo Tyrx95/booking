@@ -19,19 +19,12 @@ export default Ember.Controller.extend({
   hasPopularLodgings: notEmpty('model.popularLodgings'),
   geolocation: navigator.geolocation,
   date: new Date().toISOString().substring(0, 10),
-  endDate: computed('date',function () {
-    var date = this.get('date');
-    date = ( date.constructor === String)
-      ? this.stringToDate(date, 'yyyy-mm-dd','-') : date[0]; //TODO define new to Date function
-    date.setDate(date.getDate()+1);
-    return date.toISOString().substring(0, 10);
-  }),
+  endDate: new Date().toISOString().substring(0, 10),
   todayDate:  new Date().toISOString().substring(0, 10),
   minEndDate: computed('date', function(){
-    var date = this.get('date');
-    date = ( date.constructor === String)
-      ? this.stringToDate(date, 'yyyy-mm-dd','-') : date[0]; //TODO define new to Date function
-    date.setDate(date.getDate()+1);
+    //return new Date(this.stringToDate(this.get('date'), 'yyyy-mm-dd','-').getDate()+1).toISOString().substring(0, 10);
+    var date = this.stringToDate(this.get('date'), 'yyyy-mm-dd','-');
+    date.setDate(date.getDate()+2);
     return date.toISOString().substring(0, 10);
   }),
 
@@ -46,7 +39,6 @@ export default Ember.Controller.extend({
       var month=parseInt(dateItems[monthIndex]);
       month-=1;
       var formatedDate = new Date(dateItems[yearIndex],month,dateItems[dayIndex]);
-      formatedDate.setDate(formatedDate.getDate()+1);
       return formatedDate;
     },
 
@@ -64,19 +56,11 @@ export default Ember.Controller.extend({
 
   actions: {
     findRoom() {
-      var date = this.get('date');
-      var endDate = this.get('endDate');
-      if(date.constructor !== String ){
-        date = date[0].toISOString().substring(0, 10);
-      }
-      if(endDate.constructor !== String ){
-        endDate = endDate[0].toISOString().substring(0, 10);
-      }
       let filters = {
         name: this.get('lodging_name'),
         people: this.get('number_of_people'),
-        date: date,
-        endDate: endDate
+        date: this.get('date'),
+        endDate: this.get('endDate'),
       };
       this.transitionToRoute('search-results', { queryParams: filters });
     },

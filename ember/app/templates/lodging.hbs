@@ -50,32 +50,12 @@
                 <option value=7>7 People</option>
                 <option value=8>8 People</option>
               </select>
-              {{!--{{input class="index-room-search-input" id='date' type='date' min=todayDate value=date required="required"}}--}}
-              {{ember-flatpickr
-                date=(readonly date)
-                onChange=(action (mut date))
-                dateFormat='Y-m-d'
-                defaultDate=date
-                minDate=todayDate
-                altInputClass='index-room-search-input'
-                altInput=true
-                altFormat = 'F j, Y'
-              }}
-              {{!--{{input class="index-room-search-input" id='endDate' type='date' value=endDate min = minEndDate required="required"}}--}}
-              {{ember-flatpickr
-                date=(readonly endDate)
-                onChange=(action (mut endDate))
-                dateFormat='Y-m-d'
-                defaultDate=endDate
-                minDate=minEndDate
-                altInputClass='index-room-search-input'
-                altInput=true
-                altFormat = 'F j, Y'
-              }}
+              {{input class="index-room-search-input" id='date' type='date' min=todayDate value=date required="required"}}
+              {{input class="index-room-search-input" id='endDate' type='date' value=endDate min = minEndDate required="required"}}
               <button type="submit" class="reservation-form-button">Find Room</button>
             </form>
             {{#if model.didFindRoom}}
-              <h3 class="lodging-reservation-availability">Availability on {{model.response.inquiry.date}} for {{model.response.inquiry.numberOfPeople}} People:</h3>
+              <h3 class="lodging-reservation-availability">Availability on period {{millis-to-date model.response.inquiry.date}} - {{millis-to-date model.response.inquiry.endDate}} for {{model.response.inquiry.numberOfPeople}} People:</h3>
               <p class="lodging-reservation-info">
                 <span>{{#if areAvailableRooms}}{{fa-icon "check-circle"}}{{else}}{{fa-icon "times-circle"}}{{/if}}Number of Rooms Left: {{model.response.numberOfRoomsLeft}}</span><span>{{fa-icon "info-circle"}}Reservations Today: {{model.response.numberOfReservationsToday}}</span>
               </p>
@@ -83,7 +63,7 @@
                 <h5 class="lodging-reservation-times-title">Select the best time that fits you:</h5>
                 <p class="lodging-reservation-times">
                   {{#each model.response.dateSuggestions as |suggestion|}}
-                  <span {{action 'reserve' suggestion}}>{{millis-to-date suggestion.startDate}} - {{millis-to-date suggestion.endDate}}</span>
+                  <span {{action 'reserve' suggestion}}>{{millis-to-date suggestion.startDate}} - {{millis-to-date suggestion.endDate}} </span>
                   {{/each}}
                 </p>
               {{/unless}}

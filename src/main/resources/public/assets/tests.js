@@ -220,7 +220,7 @@ define('ember-app/tests/controllers/lodging.jshint', ['exports'], function (expo
   QUnit.module('JSHint | controllers/lodging.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(true, 'controllers/lodging.js should pass jshint.');
+    assert.ok(false, 'controllers/lodging.js should pass jshint.\ncontrollers/lodging.js: line 10, col 5, \'alias\' is defined but never used.\n\n1 error');
   });
 });
 define('ember-app/tests/controllers/lodgings/index.jshint', ['exports'], function (exports) {
@@ -256,7 +256,7 @@ define('ember-app/tests/controllers/reservation-details.jshint', ['exports'], fu
   QUnit.module('JSHint | controllers/reservation-details.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/reservation-details.js should pass jshint.\ncontrollers/reservation-details.js: line 128, col 11, Comma warnings can be turned off with \'laxcomma\'.\ncontrollers/reservation-details.js: line 127, col 47, Misleading line break before \',\'; readers may interpret this as an expression boundary.\n\n2 errors');
+    assert.ok(false, 'controllers/reservation-details.js should pass jshint.\ncontrollers/reservation-details.js: line 138, col 11, Comma warnings can be turned off with \'laxcomma\'.\ncontrollers/reservation-details.js: line 137, col 47, Misleading line break before \',\'; readers may interpret this as an expression boundary.\n\n2 errors');
   });
 });
 define('ember-app/tests/controllers/search-results.jshint', ['exports'], function (exports) {

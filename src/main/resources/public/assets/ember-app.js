@@ -984,8 +984,26 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
     }),
 
     date: new Date().toISOString().substring(0, 10),
-    today: alias('date'),
     endDate: new Date().toISOString().substring(0, 10),
+    todayDate: new Date().toISOString().substring(0, 10),
+    minEndDate: computed('date', function () {
+      //return new Date(this.stringToDate(this.get('date'), 'yyyy-mm-dd','-').getDate()+1).toISOString().substring(0, 10);
+      var date = this.stringToDate(this.get('date'), 'yyyy-mm-dd', '-');
+      date.setDate(date.getDate() + 2);
+      return date.toISOString().substring(0, 10);
+    }),
+    stringToDate: function stringToDate(_date, _format, _delimiter) {
+      var formatLowerCase = _format.toLowerCase();
+      var formatItems = formatLowerCase.split(_delimiter);
+      var dateItems = _date.split(_delimiter);
+      var monthIndex = formatItems.indexOf("mm");
+      var dayIndex = formatItems.indexOf("dd");
+      var yearIndex = formatItems.indexOf("yyyy");
+      var month = parseInt(dateItems[monthIndex]);
+      month -= 1;
+      var formatedDate = new Date(dateItems[yearIndex], month, dateItems[dayIndex]);
+      return formatedDate;
+    },
 
     actions: {
       showRatingDialog: function showRatingDialog() {
@@ -1026,13 +1044,14 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
       findRoom: function findRoom() {
         var _this3 = this;
 
+        var data = JSON.stringify({
+          lodgingId: this.get('model.lodging.id'),
+          numberOfPeople: this.get('numberOfPeople'),
+          date: this.get('date'),
+          endDate: this.get('endDate')
+        });
         this.get('ajax').post('/postReservationInquiry', {
-          data: JSON.stringify({
-            lodgingId: this.get('model.lodging.id'),
-            numberOfPeople: this.get('numberOfPeople'),
-            date: this.get('date'),
-            time: this.get('time')
-          })
+          data: data
         }).then(function (response) {
           _this3.set('model.didFindRoom', true);
           _this3.set('model.response', response);
@@ -1041,16 +1060,22 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
         });
       },
 
-      reserve: function reserve(time) {
+      reserve: function reserve(suggestion) {
         var _this4 = this;
 
+        var date = new Date(suggestion.startDate);
+        date.setDate(date.getDate() + 1);
+        var endDate = new Date(suggestion.endDate);
+        endDate.setDate(endDate.getDate() + 1);
+        date = date.toISOString().substring(0, 10);
+        endDate = endDate.toISOString().substring(0, 10);
         this.get('ajax').post('/postReservation', {
           contentType: 'application/json',
           data: JSON.stringify({
             lodgingId: this.get('model.response.inquiry.lodgingId'),
             numberOfPeople: this.get('model.response.inquiry.numberOfPeople'),
-            date: this.get('model.response.inquiry.date'),
-            time: time
+            date: date,
+            endDate: endDate
           })
         }).then(function (response) {
           return _this4.transitionToRoute('reservation-details', response.id);
@@ -1273,6 +1298,16 @@ define('ember-app/controllers/reservation-details', ['exports', 'ember'], functi
 
         this.set('model.reservation.user', this.get('model.user.object'));
         this.set('reservationConfirmed', true);
+        var date = new Date(this.get('model.reservation.startDate'));
+        date.setDate(date.getDate() + 1);
+        var endDate = new Date(this.get('model.reservation.endDate'));
+        endDate.setDate(endDate.getDate() + 1);
+        date = date.toISOString().substring(0, 10);
+        endDate = endDate.toISOString().substring(0, 10);
+        this.set('model.reservation.startDate', date);
+        this.set('model.reservation.endDate', endDate);
+        var reservedOn = new Date(this.get('model.reservation.reservedOn'));
+        this.set('model.reservation.reservedOn', reservedOn.getTime());
         this.get('ajax').post('/confirmReservation', {
           xhrFields: {
             withCredentials: true
@@ -11467,6 +11502,12 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
               var el1 = dom.createElement("span");
               var el2 = dom.createComment("");
               dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode(" - ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode(" ");
+              dom.appendChild(el1, el2);
               dom.appendChild(el0, el1);
               var el1 = dom.createTextNode("\n");
               dom.appendChild(el0, el1);
@@ -11474,12 +11515,13 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
               var element21 = dom.childAt(fragment, [1]);
-              var morphs = new Array(2);
+              var morphs = new Array(3);
               morphs[0] = dom.createElementMorph(element21);
               morphs[1] = dom.createMorphAt(element21, 0, 0);
+              morphs[2] = dom.createMorphAt(element21, 2, 2);
               return morphs;
             },
-            statements: [["element", "action", ["reserve", ["get", "suggestion", ["loc", [null, [66, 43], [66, 53]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 24], [66, 55]]], 0, 0], ["content", "suggestion", ["loc", [null, [66, 56], [66, 70]]], 0, 0, 0, 0]],
+            statements: [["element", "action", ["reserve", ["get", "suggestion", ["loc", [null, [66, 43], [66, 53]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 24], [66, 55]]], 0, 0], ["inline", "millis-to-date", [["get", "suggestion.startDate", ["loc", [null, [66, 73], [66, 93]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 56], [66, 95]]], 0, 0], ["inline", "millis-to-date", [["get", "suggestion.endDate", ["loc", [null, [66, 115], [66, 133]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 98], [66, 135]]], 0, 0]],
             locals: ["suggestion"],
             templates: []
           };
@@ -11533,7 +11575,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [3]), 1, 1);
             return morphs;
           },
-          statements: [["block", "each", [["get", "model.response.timeSuggestions", ["loc", [null, [65, 26], [65, 56]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [65, 18], [67, 27]]]]],
+          statements: [["block", "each", [["get", "model.response.dateSuggestions", ["loc", [null, [65, 26], [65, 56]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [65, 18], [67, 27]]]]],
           locals: [],
           templates: [child0]
         };
@@ -11564,11 +11606,11 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("h3");
           dom.setAttribute(el1, "class", "lodging-reservation-availability");
-          var el2 = dom.createTextNode("Availability on ");
+          var el2 = dom.createTextNode("Availability on period ");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
-          var el2 = dom.createTextNode(" around ");
+          var el2 = dom.createTextNode(" - ");
           dom.appendChild(el1, el2);
           var el2 = dom.createComment("");
           dom.appendChild(el1, el2);
@@ -11627,7 +11669,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           dom.insertBoundary(fragment, null);
           return morphs;
         },
-        statements: [["content", "model.response.inquiry.date", ["loc", [null, [58, 75], [58, 106]]], 0, 0, 0, 0], ["content", "model.response.inquiry.time", ["loc", [null, [58, 114], [58, 145]]], 0, 0, 0, 0], ["content", "model.response.inquiry.numberOfPeople", ["loc", [null, [58, 150], [58, 191]]], 0, 0, 0, 0], ["block", "if", [["get", "areAvailableRooms", ["loc", [null, [60, 28], [60, 45]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [60, 22], [60, 114]]]], ["content", "model.response.numberOfRoomsLeft", ["loc", [null, [60, 136], [60, 172]]], 0, 0, 0, 0], ["inline", "fa-icon", ["info-circle"], [], ["loc", [null, [60, 185], [60, 210]]], 0, 0], ["content", "model.response.numberOfReservationsToday", ["loc", [null, [60, 230], [60, 274]]], 0, 0, 0, 0], ["block", "unless", [["subexpr", "eq", [["get", "model.response.numberOfRoomsLeft", ["loc", [null, [62, 28], [62, 60]]], 0, 0, 0, 0], 0], [], ["loc", [null, [62, 24], [62, 63]]], 0, 0]], [], 2, null, ["loc", [null, [62, 14], [69, 25]]]]],
+        statements: [["inline", "millis-to-date", [["get", "model.response.inquiry.date", ["loc", [null, [58, 99], [58, 126]]], 0, 0, 0, 0]], [], ["loc", [null, [58, 82], [58, 128]]], 0, 0], ["inline", "millis-to-date", [["get", "model.response.inquiry.endDate", ["loc", [null, [58, 148], [58, 178]]], 0, 0, 0, 0]], [], ["loc", [null, [58, 131], [58, 180]]], 0, 0], ["content", "model.response.inquiry.numberOfPeople", ["loc", [null, [58, 185], [58, 226]]], 0, 0, 0, 0], ["block", "if", [["get", "areAvailableRooms", ["loc", [null, [60, 28], [60, 45]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [60, 22], [60, 114]]]], ["content", "model.response.numberOfRoomsLeft", ["loc", [null, [60, 136], [60, 172]]], 0, 0, 0, 0], ["inline", "fa-icon", ["info-circle"], [], ["loc", [null, [60, 185], [60, 210]]], 0, 0], ["content", "model.response.numberOfReservationsToday", ["loc", [null, [60, 230], [60, 274]]], 0, 0, 0, 0], ["block", "unless", [["subexpr", "eq", [["get", "model.response.numberOfRoomsLeft", ["loc", [null, [62, 28], [62, 60]]], 0, 0, 0, 0], 0], [], ["loc", [null, [62, 24], [62, 63]]], 0, 0]], [], 2, null, ["loc", [null, [62, 14], [69, 25]]]]],
         locals: [],
         templates: [child0, child1, child2]
       };
@@ -13527,7 +13569,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
         morphs[27] = dom.createMorphAt(element39, 7, 7);
         return morphs;
       },
-      statements: [["inline", "navigation-wrapper", [], ["type", "lodging", "coverImage", ["subexpr", "@mut", [["get", "model.lodging.coverImagePath", ["loc", [null, [2, 49], [2, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "user", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [2, 83], [2, 93]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [2, 95]]], 0, 0], ["block", "if", [["get", "model.lodging.profileImagePath", ["loc", [null, [8, 18], [8, 48]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 12], [12, 19]]]], ["content", "model.lodging.name", ["loc", [null, [16, 35], [16, 57]]], 0, 0, 0, 0], ["inline", "star-score", [], ["averageRating", ["subexpr", "@mut", [["get", "model.lodging.averageRating", ["loc", [null, [18, 39], [18, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-stars-light"], ["loc", [null, [18, 12], [18, 101]]], 0, 0], ["content", "model.lodging.numberOfRatings", ["loc", [null, [19, 79], [19, 112]]], 0, 0, 0, 0], ["inline", "price-range", [], ["priceRange", ["subexpr", "@mut", [["get", "model.lodging.priceRange", ["loc", [null, [20, 37], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-pricernage lodging-tile-pricernage-light"], ["loc", [null, [20, 12], [20, 125]]], 0, 0], ["block", "each", [["get", "model.lodging.facilities", ["loc", [null, [22, 22], [22, 46]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 14], [22, 101]]]], ["block", "if", [["get", "model.user.isLoggedIn", ["loc", [null, [25, 16], [25, 37]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [25, 10], [27, 17]]]], ["element", "action", ["findRoom"], ["on", "submit"], ["loc", [null, [42, 43], [42, 76]]], 0, 0], ["element", "action", ["setNumberOfPeople"], ["on", "change"], ["loc", [null, [43, 42], [43, 85]]], 0, 0], ["inline", "input", [], ["type", "date", "value", ["subexpr", "@mut", [["get", "date", ["loc", [null, [53, 40], [53, 44]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required", "min", ["subexpr", "@mut", [["get", "today", ["loc", [null, [53, 69], [53, 74]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [53, 14], [53, 76]]], 0, 0], ["inline", "input", [], ["type", "date", "value", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [54, 40], [54, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required", "min", ["subexpr", "@mut", [["get", "today", ["loc", [null, [54, 72], [54, 77]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [54, 14], [54, 79]]], 0, 0], ["block", "if", [["get", "model.didFindRoom", ["loc", [null, [57, 18], [57, 35]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [57, 12], [70, 19]]]], ["content", "model.lodging.name", ["loc", [null, [73, 49], [73, 71]]], 0, 0, 0, 0], ["inline", "google-map", [], ["markerLat", ["subexpr", "@mut", [["get", "model.lodging.latitude", ["loc", [null, [75, 24], [75, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "markerLng", ["subexpr", "@mut", [["get", "model.lodging.longitude", ["loc", [null, [76, 24], [76, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "bounds", ["subexpr", "@mut", [["get", "model.lodging.city.bounds", ["loc", [null, [77, 21], [77, 46]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [74, 12], [78, 14]]], 0, 0], ["content", "model.lodging.description", ["loc", [null, [81, 14], [81, 43]]], 0, 0, 0, 0], ["block", "each", [["get", "landmarksAreaInfo", ["loc", [null, [95, 28], [95, 45]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [95, 20], [115, 29]]]], ["block", "each", [["get", "marketsAreaInfo", ["loc", [null, [118, 28], [118, 43]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [118, 20], [138, 29]]]], ["block", "each", [["get", "airportsAreaInfo", ["loc", [null, [141, 28], [141, 44]]], 0, 0, 0, 0]], [], 7, null, ["loc", [null, [141, 20], [161, 29]]]], ["block", "if", [["get", "model.lodging.photos", ["loc", [null, [171, 18], [171, 38]]], 0, 0, 0, 0]], [], 8, 9, ["loc", [null, [171, 12], [233, 19]]]], ["block", "radio-button", [], ["value", 1, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [249, 45], [249, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 10, null, ["loc", [null, [249, 10], [249, 118]]]], ["block", "radio-button", [], ["value", 2, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [250, 45], [250, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 11, null, ["loc", [null, [250, 10], [250, 118]]]], ["block", "radio-button", [], ["value", 3, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [251, 45], [251, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 12, null, ["loc", [null, [251, 10], [251, 118]]]], ["block", "radio-button", [], ["value", 4, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [252, 45], [252, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 13, null, ["loc", [null, [252, 10], [252, 118]]]], ["block", "radio-button", [], ["value", 5, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [253, 45], [253, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 14, null, ["loc", [null, [253, 10], [253, 118]]]], ["inline", "textarea", [], ["class", "review-textarea", "type", "text", "placeholder", "Write a Review", "value", ["subexpr", "@mut", [["get", "review_text", ["loc", [null, [255, 90], [255, 101]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [255, 8], [255, 123]]], 0, 0], ["element", "action", ["submitReviewAction"], [], ["loc", [null, [256, 45], [256, 76]]], 0, 0], ["block", "if", [["get", "model.hasError", ["loc", [null, [257, 14], [257, 28]]], 0, 0, 0, 0]], [], 15, null, ["loc", [null, [257, 8], [259, 15]]]]],
+      statements: [["inline", "navigation-wrapper", [], ["type", "lodging", "coverImage", ["subexpr", "@mut", [["get", "model.lodging.coverImagePath", ["loc", [null, [2, 49], [2, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "user", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [2, 83], [2, 93]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [2, 95]]], 0, 0], ["block", "if", [["get", "model.lodging.profileImagePath", ["loc", [null, [8, 18], [8, 48]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 12], [12, 19]]]], ["content", "model.lodging.name", ["loc", [null, [16, 35], [16, 57]]], 0, 0, 0, 0], ["inline", "star-score", [], ["averageRating", ["subexpr", "@mut", [["get", "model.lodging.averageRating", ["loc", [null, [18, 39], [18, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-stars-light"], ["loc", [null, [18, 12], [18, 101]]], 0, 0], ["content", "model.lodging.numberOfRatings", ["loc", [null, [19, 79], [19, 112]]], 0, 0, 0, 0], ["inline", "price-range", [], ["priceRange", ["subexpr", "@mut", [["get", "model.lodging.priceRange", ["loc", [null, [20, 37], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-pricernage lodging-tile-pricernage-light"], ["loc", [null, [20, 12], [20, 125]]], 0, 0], ["block", "each", [["get", "model.lodging.facilities", ["loc", [null, [22, 22], [22, 46]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 14], [22, 101]]]], ["block", "if", [["get", "model.user.isLoggedIn", ["loc", [null, [25, 16], [25, 37]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [25, 10], [27, 17]]]], ["element", "action", ["findRoom"], ["on", "submit"], ["loc", [null, [42, 43], [42, 76]]], 0, 0], ["element", "action", ["setNumberOfPeople"], ["on", "change"], ["loc", [null, [43, 42], [43, 85]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "date", "type", "date", "min", ["subexpr", "@mut", [["get", "todayDate", ["loc", [null, [53, 80], [53, 89]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "date", ["loc", [null, [53, 96], [53, 100]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [53, 14], [53, 122]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "endDate", "type", "date", "value", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [54, 85], [54, 92]]], 0, 0, 0, 0]], [], [], 0, 0], "min", ["subexpr", "@mut", [["get", "minEndDate", ["loc", [null, [54, 99], [54, 109]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [54, 14], [54, 131]]], 0, 0], ["block", "if", [["get", "model.didFindRoom", ["loc", [null, [57, 18], [57, 35]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [57, 12], [70, 19]]]], ["content", "model.lodging.name", ["loc", [null, [73, 49], [73, 71]]], 0, 0, 0, 0], ["inline", "google-map", [], ["markerLat", ["subexpr", "@mut", [["get", "model.lodging.latitude", ["loc", [null, [75, 24], [75, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "markerLng", ["subexpr", "@mut", [["get", "model.lodging.longitude", ["loc", [null, [76, 24], [76, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "bounds", ["subexpr", "@mut", [["get", "model.lodging.city.bounds", ["loc", [null, [77, 21], [77, 46]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [74, 12], [78, 14]]], 0, 0], ["content", "model.lodging.description", ["loc", [null, [81, 14], [81, 43]]], 0, 0, 0, 0], ["block", "each", [["get", "landmarksAreaInfo", ["loc", [null, [95, 28], [95, 45]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [95, 20], [115, 29]]]], ["block", "each", [["get", "marketsAreaInfo", ["loc", [null, [118, 28], [118, 43]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [118, 20], [138, 29]]]], ["block", "each", [["get", "airportsAreaInfo", ["loc", [null, [141, 28], [141, 44]]], 0, 0, 0, 0]], [], 7, null, ["loc", [null, [141, 20], [161, 29]]]], ["block", "if", [["get", "model.lodging.photos", ["loc", [null, [171, 18], [171, 38]]], 0, 0, 0, 0]], [], 8, 9, ["loc", [null, [171, 12], [233, 19]]]], ["block", "radio-button", [], ["value", 1, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [249, 45], [249, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 10, null, ["loc", [null, [249, 10], [249, 118]]]], ["block", "radio-button", [], ["value", 2, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [250, 45], [250, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 11, null, ["loc", [null, [250, 10], [250, 118]]]], ["block", "radio-button", [], ["value", 3, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [251, 45], [251, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 12, null, ["loc", [null, [251, 10], [251, 118]]]], ["block", "radio-button", [], ["value", 4, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [252, 45], [252, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 13, null, ["loc", [null, [252, 10], [252, 118]]]], ["block", "radio-button", [], ["value", 5, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [253, 45], [253, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 14, null, ["loc", [null, [253, 10], [253, 118]]]], ["inline", "textarea", [], ["class", "review-textarea", "type", "text", "placeholder", "Write a Review", "value", ["subexpr", "@mut", [["get", "review_text", ["loc", [null, [255, 90], [255, 101]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [255, 8], [255, 123]]], 0, 0], ["element", "action", ["submitReviewAction"], [], ["loc", [null, [256, 45], [256, 76]]], 0, 0], ["block", "if", [["get", "model.hasError", ["loc", [null, [257, 14], [257, 28]]], 0, 0, 0, 0]], [], 15, null, ["loc", [null, [257, 8], [259, 15]]]]],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15]
     };
@@ -17292,7 +17334,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+60fe5e4d"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+9ea75704"});
 }
 
 /* jshint ignore:end */
