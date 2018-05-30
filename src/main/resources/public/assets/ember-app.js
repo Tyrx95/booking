@@ -968,15 +968,21 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
     areAvailableRooms: gt('model.response.numberOfRoomsLeft', 0),
 
     landmarksAreaInfo: computed('model.lodging.areaInfo', function () {
-      return JSON.parse(this.get('model.lodging.areaInfo')).landmarks;
+      if (this.get('model.lodging.areaInfo')) {
+        return JSON.parse(this.get('model.lodging.areaInfo')).landmarks;
+      }
     }),
 
     marketsAreaInfo: computed('model.lodging.areaInfo', function () {
-      return JSON.parse(this.get('model.lodging.areaInfo')).markets;
+      if (this.get('model.lodging.areaInfo')) {
+        return JSON.parse(this.get('model.lodging.areaInfo')).markets;
+      }
     }),
 
     airportsAreaInfo: computed('model.lodging.areaInfo', function () {
-      return JSON.parse(this.get('model.lodging.areaInfo')).airports;
+      if (this.get('model.lodging.areaInfo')) {
+        return JSON.parse(this.get('model.lodging.areaInfo')).airports;
+      }
     }),
 
     hasMap: computed('model.lodging.latitude', 'model.lodging.longitude', function () {
@@ -17334,7 +17340,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+9ea75704"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+79cebb18"});
 }
 
 /* jshint ignore:end */
