@@ -968,19 +968,19 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
     areAvailableRooms: gt('model.response.numberOfRoomsLeft', 0),
 
     landmarksAreaInfo: computed('model.lodging.areaInfo', function () {
-      if (this.get('model.lodging.areaInfo') !== undefined) {
+      if (this.get('model.lodging.areaInfo') !== undefined && this.get('model.lodging.areaInfo') !== null) {
         return JSON.parse(this.get('model.lodging.areaInfo')).landmarks;
       }
     }),
 
     marketsAreaInfo: computed('model.lodging.areaInfo', function () {
-      if (this.get('model.lodging.areaInfo') !== undefined) {
+      if (this.get('model.lodging.areaInfo') !== undefined && this.get('model.lodging.areaInfo') !== null) {
         return JSON.parse(this.get('model.lodging.areaInfo')).markets;
       }
     }),
 
     airportsAreaInfo: computed('model.lodging.areaInfo', function () {
-      if (this.get('model.lodging.areaInfo') !== undefined) {
+      if (this.get('model.lodging.areaInfo') !== undefined && this.get('model.lodging.areaInfo') !== null) {
         return JSON.parse(this.get('model.lodging.areaInfo')).airports;
       }
     }),
@@ -17340,7 +17340,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+eb569a23"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+a8f6fea0"});
 }
 
 /* jshint ignore:end */
