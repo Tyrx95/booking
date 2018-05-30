@@ -24,15 +24,21 @@ export default Ember.Controller.extend({
   areAvailableRooms: gt('model.response.numberOfRoomsLeft', 0),
 
   landmarksAreaInfo: computed('model.lodging.areaInfo', function () {
-    return JSON.parse(this.get('model.lodging.areaInfo')).landmarks;
+    if(this.get('model.lodging.areaInfo')){
+      return JSON.parse(this.get('model.lodging.areaInfo')).landmarks;
+    }
   }),
 
   marketsAreaInfo: computed('model.lodging.areaInfo', function () {
-    return JSON.parse(this.get('model.lodging.areaInfo')).markets;
+    if(this.get('model.lodging.areaInfo')){
+      return JSON.parse(this.get('model.lodging.areaInfo')).markets;
+    }
   }),
 
   airportsAreaInfo: computed('model.lodging.areaInfo', function () {
-    return JSON.parse(this.get('model.lodging.areaInfo')).airports;
+    if(this.get('model.lodging.areaInfo')){
+      return JSON.parse(this.get('model.lodging.areaInfo')).airports;
+    }
   }),
 
   hasMap: computed('model.lodging.latitude', 'model.lodging.longitude', function () {
