@@ -184,7 +184,7 @@ define('ember-app/components/lodging-tile', ['exports', 'ember'], function (expo
   var htmlSafe = _ember['default'].String.htmlSafe;
   exports['default'] = _ember['default'].Component.extend({
     tileStyle: computed('data.profileImagePath', function () {
-      return htmlSafe('background-image: url(' + this.get('data.profileImagePath') + '), url(\'/assets/images/rPlaceholder.png\')');
+      return htmlSafe('background-image: url(' + this.get('data.profileImagePath') + '), url(\'/images/assets/rPlaceholder.png\')');
     })
   });
 });
@@ -11296,7 +11296,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           var el1 = dom.createTextNode("              ");
           dom.appendChild(el0, el1);
           var el1 = dom.createElement("img");
-          dom.setAttribute(el1, "src", "/assets/images/rPlaceholder.png");
+          dom.setAttribute(el1, "src", "/images/assets/rPlaceholder.png");
           dom.setAttribute(el1, "alt", "");
           dom.appendChild(el0, el1);
           var el1 = dom.createTextNode("\n");
@@ -17341,7 +17341,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+59ea81cf"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+39e518e3"});
 }
 
 /* jshint ignore:end */
