@@ -78,15 +78,15 @@ export default Ember.Controller.extend({
     submitLodging() {
       this.set('model.lodging.latitude', this.get('marker').getPosition().lat());
       this.set('model.lodging.longitude', this.get('marker').getPosition().lng());
-
+/*
       if (this.get('marker').getPosition() === this.get('defaultMerkerPosition')) {
         return alert('Please Move the Map Marker to the correct position');
-      }
+      }*/
 
       let markerLatLng = new google.maps.LatLng(this.get('model.lodging.latitude'), this.get('model.lodging.longitude'));
-      if (!google.maps.geometry.poly.containsLocation(markerLatLng, this.get('polygon'))) {
+     /* if (!google.maps.geometry.poly.containsLocation(markerLatLng, this.get('polygon'))) {
         return alert('Marker out of Bounds. Please position the marker within the selected City.');
-      }
+      }*/
 
       /*
       if (this.get('uploadProgressProfile') !== null || this.get('uploadProgressCover') !== null) {

@@ -166,7 +166,7 @@ define('ember-app/tests/controllers/admin/lodgings/new.jshint', ['exports'], fun
   QUnit.module('JSHint | controllers/admin/lodgings/new.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/admin/lodgings/new.js should pass jshint.\ncontrollers/admin/lodgings/new.js: line 143, col 11, Missing semicolon.\n\n1 error');
+    assert.ok(false, 'controllers/admin/lodgings/new.js should pass jshint.\ncontrollers/admin/lodgings/new.js: line 86, col 11, \'markerLatLng\' is defined but never used.\ncontrollers/admin/lodgings/new.js: line 143, col 11, Missing semicolon.\n\n2 errors');
   });
 });
 define('ember-app/tests/controllers/admin/lodgings/reservations.jshint', ['exports'], function (exports) {

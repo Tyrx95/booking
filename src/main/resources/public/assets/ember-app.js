@@ -661,15 +661,15 @@ define('ember-app/controllers/admin/lodgings/new', ['exports', 'ember', 'jquery'
 
         this.set('model.lodging.latitude', this.get('marker').getPosition().lat());
         this.set('model.lodging.longitude', this.get('marker').getPosition().lng());
-
-        if (this.get('marker').getPosition() === this.get('defaultMerkerPosition')) {
-          return alert('Please Move the Map Marker to the correct position');
-        }
+        /*
+              if (this.get('marker').getPosition() === this.get('defaultMerkerPosition')) {
+                return alert('Please Move the Map Marker to the correct position');
+              }*/
 
         var markerLatLng = new google.maps.LatLng(this.get('model.lodging.latitude'), this.get('model.lodging.longitude'));
-        if (!google.maps.geometry.poly.containsLocation(markerLatLng, this.get('polygon'))) {
-          return alert('Marker out of Bounds. Please position the marker within the selected City.');
-        }
+        /* if (!google.maps.geometry.poly.containsLocation(markerLatLng, this.get('polygon'))) {
+           return alert('Marker out of Bounds. Please position the marker within the selected City.');
+         }*/
 
         /*
         if (this.get('uploadProgressProfile') !== null || this.get('uploadProgressCover') !== null) {
@@ -17367,7 +17367,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+bceaf2fc"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+78f7c9cc"});
 }
 
 /* jshint ignore:end */
