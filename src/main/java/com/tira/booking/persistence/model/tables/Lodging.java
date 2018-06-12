@@ -54,9 +54,6 @@ public class Lodging extends BaseModel {
 	@Column(name = "description")
 	private String description;
 
-	@Column(name = "areaInfo")
-	private String areaInfo;
-
 	@Column(name = "latitude")
 	private Float latitude;
 
@@ -69,6 +66,10 @@ public class Lodging extends BaseModel {
 	@OnDelete(action = OnDeleteAction.CASCADE)
 	@OneToMany(mappedBy = "lodgingId", fetch=FetchType.EAGER)
 	private Set<LodgingPhoto> photos;
+
+	@OneToOne(mappedBy = "lodging", cascade = CascadeType.ALL,
+			fetch = FetchType.EAGER)
+	private AreaInfo areaInfo;
 
 	@ManyToMany(cascade = {CascadeType.DETACH, CascadeType.PERSIST, CascadeType.REFRESH},
 			fetch=FetchType.EAGER)
@@ -259,23 +260,6 @@ public class Lodging extends BaseModel {
 		this.description = description;
 	}
 
-	/**
-	 * Gets areaInfo.
-	 *
-	 * @return the areaInfo
-	 */
-	public String getAreaInfo() {
-		return areaInfo;
-	}
-
-	/**
-	 * Sets areaInfo.
-	 *
-	 * @param areaInfo the areaInfo
-	 */
-	public void setAreaInfo(String areaInfo) {
-		this.areaInfo = areaInfo;
-	}
 
 	/**
 	 * Gets photos.
@@ -427,5 +411,13 @@ public class Lodging extends BaseModel {
 	 */
 	public void setStarRating(Integer starRating) {
 		this.starRating = starRating;
+	}
+
+	public AreaInfo getAreaInfo() {
+		return areaInfo;
+	}
+
+	public void setAreaInfo(AreaInfo areaInfo) {
+		this.areaInfo = areaInfo;
 	}
 }

@@ -28,7 +28,7 @@ export default EmberUploader.FileField.extend({
       this.set('progress', null);
       let explodedFilename = files[0].name.split('.');
       if(this.get('model.isEdit')){
-        this.sendAction('onFinishedUpload', this.get('imageFor'), explodedFilename[explodedFilename.length - 1], this.get('timestamp'));
+        this.sendAction('onFinishedUpload', this.get('imageFor'), response.path);
       }
       else{
         if(this.get('imageFor') === 'gallery' ){

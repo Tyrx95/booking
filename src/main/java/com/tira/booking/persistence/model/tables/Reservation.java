@@ -2,6 +2,8 @@ package com.tira.booking.persistence.model.tables;
 
 
 import com.tira.booking.persistence.model.BaseModel;
+import org.hibernate.annotations.OnDelete;
+import org.hibernate.annotations.OnDeleteAction;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -25,6 +27,7 @@ public class Reservation extends BaseModel {
 	private UUID id;
 
 	@ManyToOne
+	@OnDelete(action = OnDeleteAction.CASCADE)
 	@JoinColumn(name = "room_id", referencedColumnName = "id")
 	private LodgingRoom room;
 

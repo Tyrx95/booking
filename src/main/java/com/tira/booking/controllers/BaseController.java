@@ -90,6 +90,7 @@ abstract class BaseController{
         });
     }
 
+
     /**
      * Gets query parameter as Integer.
      *

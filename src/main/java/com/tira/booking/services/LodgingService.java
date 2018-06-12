@@ -1,20 +1,21 @@
 package com.tira.booking.services;
 
-import com.tira.booking.persistence.model.helpers.PaginationAdapter;
-import com.tira.booking.persistence.model.helpers.PopularLocation;
-import com.tira.booking.persistence.model.helpers.PopularLodgingsBean;
-import com.tira.booking.persistence.model.helpers.LodgingFilter;
+import com.tira.booking.exceptions.ServiceException;
+import com.tira.booking.persistence.model.helpers.*;
 import com.tira.booking.persistence.model.helpers.forms.ImageUploadForm;
 import com.tira.booking.persistence.model.helpers.forms.ReviewForm;
 import com.tira.booking.persistence.model.tables.*;
 import org.hibernate.Criteria;
+import org.hibernate.NonUniqueObjectException;
 import org.hibernate.criterion.*;
 import org.hibernate.transform.Transformers;
 import org.springframework.stereotype.Service;
 
 
+import javax.sound.sampled.Line;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 import java.util.stream.Collectors;
 
@@ -25,15 +26,62 @@ import java.util.stream.Collectors;
 public class LodgingService extends BaseService {
 
 	private static final String BASE_PATH = "/images/";
+	private static final String AIRPORT_TYPE = "airport";
+	private static final String MARKET_TYPE = "market";
+	private static final String LANDMARK_TYPE = "landmark";
 
-	/**
-	 * Create lodging boolean.
-	 *
-	 * @param lodging the lodging
-	 * @throws Exception the exception
-	 */
 	public UUID createLodging(final Lodging lodging) throws Exception {
-		return (UUID) getSession().save(lodging);
+	    UUID savedLodgingId = (UUID) getSession().save(lodging);
+	    if(lodging.getAreaInfo() != null) {
+			saveAreaInfo(lodging);
+		}
+		return savedLodgingId;
+	}
+
+	private void saveAreaInfo(Lodging lodging) throws Exception{
+        AreaInfo areaInfo = lodging.getAreaInfo();
+        if(areaInfo.getId()==null){
+        	getSession().save(areaInfo);
+		}
+        if(areaInfo.getLodging() == null) {
+			areaInfo.setLodging(lodging);
+		}
+		if(areaInfo.getAirports() != null){
+			saveObjectInfo(areaInfo.getAirports(),areaInfo, AIRPORT_TYPE);
+
+		}
+		if(areaInfo.getLandmarks() != null){
+			saveObjectInfo(areaInfo.getLandmarks(),areaInfo, LANDMARK_TYPE);
+
+		}
+		if(areaInfo.getMarkets() != null){
+			saveObjectInfo(areaInfo.getMarkets(),areaInfo, MARKET_TYPE);
+		}
+    }
+
+
+    private void saveObjectInfo(Set<InfoObject> infoObjects, AreaInfo areaInfo, String type) throws ServiceException{
+        for (InfoObject infoObject: infoObjects) {
+        	switch(type){
+				case AIRPORT_TYPE:
+					if(infoObject.getAirportsAreaInfo() == null)
+						infoObject.setAirportsAreaInfo(areaInfo);
+					break;
+				case MARKET_TYPE:
+					if (infoObject.getMarketsAreaInfo() == null)
+						infoObject.setMarketsAreaInfo(areaInfo);
+					break;
+				case LANDMARK_TYPE:
+					if (infoObject.getLandmarksAreaInfo() == null)
+						infoObject.setLandmarksAreaInfo(areaInfo);
+					break;
+        		default: throw new ServiceException("Invalid type for area info");
+			}
+			if(infoObject.getId() != null){
+				getSession().save(infoObject);
+			}
+			getSession().merge(areaInfo);
+		}
 	}
 
 	/**
@@ -44,6 +92,9 @@ public class LodgingService extends BaseService {
 	 */
 	public Boolean editLodging(final Lodging lodging) throws Exception {
 		getSession().merge(lodging);
+		if (lodging.getAreaInfo() != null) {
+			saveAreaInfo(lodging);
+		}
 		return true;
 	}
 
@@ -275,12 +326,12 @@ public class LodgingService extends BaseService {
 	 * @return the string
 	 * @throws Exception the exception
 	 */
-	public String updatePicture(final ImageUploadForm imageUploadForm) throws Exception {
+	public Object updatePicture(final ImageUploadForm imageUploadForm) throws Exception {
 		Lodging lodging = (Lodging) getSession().createCriteria(Lodging.class)
 				.add(Restrictions.eq("id", imageUploadForm.getLodgingId()))
 				.uniqueResult();
 
-		String newImagePath = BASE_PATH + imageUploadForm.getTimestamp() + "." + imageUploadForm.getExtension();
+		String newImagePath = imageUploadForm.getPath();
 		if (imageUploadForm.getImageType().equals("profile")) {
 			lodging.setProfileImagePath(newImagePath);
 		} else if (imageUploadForm.getImageType().equals("cover")){
@@ -291,9 +342,7 @@ public class LodgingService extends BaseService {
 			newPhoto.setLodgingId(imageUploadForm.getLodgingId());
 			newPhoto.setPath(newImagePath);
 			getSession().persist(newPhoto);
-
-			return "{ \"id\": \"" + newPhoto.getId()
-					+ "\", \"lodgingId\": \"" + newPhoto.getLodgingId() +"\", \"path\": \"" + newPhoto.getPath() + "\"}";
+			return newPhoto;
 		}
 
 		getSession().update(lodging);

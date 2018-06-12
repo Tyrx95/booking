@@ -88,13 +88,14 @@ export default Ember.Controller.extend({
         return alert('Marker out of Bounds. Please position the marker within the selected City.');
       }
 
+      /*
       if (this.get('uploadProgressProfile') !== null || this.get('uploadProgressCover') !== null) {
         return alert('Please wait for upload to finish');
-      }
+      }*/
 
       let selectedFacilities = this.get('selectedFacilityPrimitives').map((primitive) => this.get('model.facilities').find((facility) => facility.name === primitive));
 
-      this.set('model.lodging.areaInfo', JSON.stringify(this.get('model.lodging.areaInfo')));
+     // this.set('model.lodging.areaInfo', JSON.stringify(this.get('model.lodging.areaInfo')));
       this.set('model.lodging.facilities', selectedFacilities);
       let jsonData = JSON.stringify(this.get('model.lodging'));
 
@@ -121,7 +122,7 @@ export default Ember.Controller.extend({
       });
     },
 
-    priceRangeChange(value) {
+    priceRangeChanged(value) {
       $('#pricerange-control input').each((index, element) => {
         if (element.value === 0) { return; }
 
@@ -149,22 +150,21 @@ export default Ember.Controller.extend({
       }
     },
 
-    uploadedImage(imageFor, fileExtension, timestamp) {
+    uploadedImage(imageFor, path) {
       this.get('ajax').patch('/admin/updatePicture', {
         xhrFields: {
           withCredentials: true,
         },
         data: JSON.stringify({
           lodgingId: this.get('model.lodging.id'),
-          timestamp: timestamp,
-          imageType: imageFor,
-          extension: fileExtension,
+          path: path,
+          imageType: imageFor
         }),
       })
       .then((response) => this.set(response.imageFor === 'profile' ? 'model.lodging.profileImagePath' : 'model.lodging.coverImagePath', response.url));
     },
 
-    uploadedGalleryImage(imageFor, fileExtension, timestamp) {
+    uploadedGalleryImage(imageFor, path) {
       this.get('ajax').patch('/admin/updatePicture', {
         xhrFields: {
           withCredentials: true,
@@ -172,46 +172,45 @@ export default Ember.Controller.extend({
         data: JSON.stringify({
           lodgingId: this.get('model.lodging.id'),
           imageType: imageFor,
-          extension: fileExtension,
-          timestamp: timestamp,
+          path: path
         }),
       })
         .then((response) => {
-          this.get('model.lodging.photos').pushObject(JSON.parse(response));
+          this.get('model.lodging.photos').pushObject(response);
 
         });
     },
 
     addAreaInfoLandmarks() {
+      if(this.get('model.lodging.areaInfo') == null){
+        this.set('model.lodging.areaInfo', {});
+      }
       let areaInfo = this.get('model.lodging.areaInfo.landmarks');
       if (typeof areaInfo === 'undefined') {
-        this.set('model.lodging.areaInfo', {});
         this.set('model.lodging.areaInfo.landmarks', []);
-        this.set('model.lodging.areaInfo.markets', []);
-        this.set('model.lodging.areaInfo.airports', []);
       }
 
       this.get('model.lodging.areaInfo.landmarks').pushObject({ id: null, name: '', description: '', price: 0 });
     },
 
     addAreaInfoMarket() {
+      if(this.get('model.lodging.areaInfo') == null){
+        this.set('model.lodging.areaInfo', {});
+      }
       let areaInfo = this.get('model.lodging.areaInfo.markets');
       if (typeof areaInfo === 'undefined') {
-        this.set('model.lodging.areaInfo', {});
-        this.set('model.lodging.areaInfo.landmarks', []);
         this.set('model.lodging.areaInfo.markets', []);
-        this.set('model.lodging.areaInfo.airports', []);
       }
 
       this.get('model.lodging.areaInfo.markets').pushObject({ id: null, name: '', description: '', price: 0 });
     },
 
     addAreaInfoAirports() {
+      if(this.get('model.lodging.areaInfo') == null){
+        this.set('model.lodging.areaInfo', {});
+      }
       let areaInfo = this.get('model.lodging.areaInfo.airports');
       if (typeof areaInfo === 'undefined') {
-        this.set('model.lodging.areaInfo', {});
-        this.set('model.lodging.areaInfo.landmarks', []);
-        this.set('model.lodging.areaInfo.markets', []);
         this.set('model.lodging.areaInfo.airports', []);
       }
 

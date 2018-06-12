@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.UUID;
 
 
@@ -28,12 +29,17 @@ public class AdministratorService extends BaseService {
 		LodgingPhoto lodgingPhoto = (LodgingPhoto) getSession().createCriteria(LodgingPhoto.class)
 				.add(Restrictions.eq("id", id))
 				.uniqueResult();
+		String[] path = lodgingPhoto.getPath().split("/");
+		UUID imageId = UUID.fromString(path[path.length-1]);
 		getSession().delete(lodgingPhoto);
-		String path = lodgingPhoto.getPath().replace("http://localhost:9000","");
-		path = new StringBuilder(path).insert(0,"public").toString();
-		Files.delete(Paths.get(path));
+		Image image = (Image) getSession().createCriteria(Image.class)
+				.add(Restrictions.eq("id",imageId))
+				.uniqueResult();
+		getSession().delete(image);
 		return true;
 	}
+
+
 
 	public AdministratorStatistics getAdministratorStatistics(){
       Long numberOfLodgings = Long.valueOf(getSession().createCriteria(Lodging.class)
@@ -56,4 +62,14 @@ public class AdministratorService extends BaseService {
               .setNumberOfFacilities(numberOfFacilities);
 	}
 
+	public boolean addImage(Image image) {
+		getSession().save(image);
+		return true;
+	}
+
+	public Image getImage(UUID uuid) {
+		return (Image) getSession().createCriteria(Image.class)
+				.add(Restrictions.eq("id", uuid))
+				.uniqueResult();
+	}
 }

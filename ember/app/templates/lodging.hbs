@@ -8,7 +8,7 @@
             {{#if model.lodging.profileImagePath}}
             <img src="{{model.lodging.profileImagePath}}" alt="" />
             {{else}}
-              <img src="/images/rPlaceholder.png" alt="" />
+              <img src="/assets/images/rPlaceholder.png" alt="" />
             {{/if}}
           </div>
         </div>
@@ -92,7 +92,7 @@
               <div class="col-xs-12">
                 <div class="tab-content">
                   <div class="tab-pane active" id="landmarks">
-                    {{#each landmarksAreaInfo as |item index|}}
+                    {{#each model.lodging.areaInfo.landmarks as |item index|}}
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="areaInfo-item">
@@ -115,7 +115,7 @@
                     {{/each}}
                   </div>
                   <div class="tab-pane" id="markets">
-                    {{#each marketsAreaInfo as |item index|}}
+                    {{#each model.lodging.areaInfo.markets as |item index|}}
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="areaInfo-item">
@@ -138,7 +138,7 @@
                     {{/each}}
                   </div>
                   <div class="tab-pane" id="airports">
-                    {{#each airportsAreaInfo as |item index|}}
+                    {{#each model.lodging.areaInfo.airports as |item index|}}
                     <div class="row">
                       <div class="col-xs-12">
                         <div class="areaInfo-item">

@@ -12,7 +12,7 @@ export default Ember.Route.extend({
   },
 
   renderTemplate: function (controller, model) {
-    model.lodging.areaInfo = JSON.parse(model.lodging.areaInfo);
+   // model.lodging.areaInfo = JSON.parse(model.lodging.areaInfo);
     this.render('admin.lodgings.new', {
         model: model,
       });
