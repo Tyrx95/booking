@@ -9,6 +9,6 @@ const {
 
 export default Ember.Component.extend({
   tileStyle: computed('data.profileImagePath', function () {
-    return htmlSafe('background-image: url(' + this.get('data.profileImagePath') + '), url(\'/assets/images/rPlaceholder.png\')');
+    return htmlSafe('background-image: url(' + this.get('data.profileImagePath') + '), url(\'/images/assets/rPlaceholder.png\')');
   }),
 });
