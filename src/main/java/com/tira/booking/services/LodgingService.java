@@ -156,13 +156,13 @@ public class LodgingService extends BaseService {
 				.setMaxResults(lodgingFilter.pageSize);
 
 
-		if (lodgingFilter.sortBy.equals("price")) {
-			criteria.addOrder(Order.desc("priceRange"));
+
+		List<UUID> restaurantIds = criteria.setProjection(Projections.projectionList()
+				.add( Projections.distinct(Projections.property("id")))).list();
+		List<Lodging> lodgings = new ArrayList<>();
+		for (UUID restaurantID: restaurantIds) {
+			lodgings.add(getLodgingWithId(restaurantID));
 		}
-
-		criteria.addOrder(Order.asc("name")).setResultTransformer(Criteria.DISTINCT_ROOT_ENTITY);
-
-		List<Lodging> lodgings = criteria.list();
 
 		switch (lodgingFilter.sortBy) {
 			case "rating":
