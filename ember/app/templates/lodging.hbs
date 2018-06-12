@@ -124,7 +124,7 @@
                               <h3 class="info-name">{{item.name}}</h3>
                             </div>
                             <div class="col-xs-4">
-                              <h4 class="info-price"><span class="areaInfo-price-sign">$</span>{{item.price}}</h4>
+                              <h4 class="info-price"><span class="areaInfo-price-sign">km</span>{{item.price}}</h4>
                             </div>
                           </div>
                         </div>
@@ -147,7 +147,7 @@
                               <h3 class="info-name">{{item.name}}</h3>
                             </div>
                             <div class="col-xs-4">
-                              <h4 class="info-price"><span class="areaInfo-price-sign">$</span>{{item.price}}</h4>
+                              <h4 class="info-price"><span class="areaInfo-price-sign">km</span>{{item.price}}</h4>
                             </div>
                           </div>
                         </div>
@@ -169,64 +169,68 @@
             <h2 class="lodging-card-title inline">Lodgings Photo:</h2>
 
             {{#if model.lodging.photos}}
-              {{#if seeMorePhotos}}
-                <button class="btn btn-default" {{action "toggleSeeMore"}}>See less photos</button>
-                {{#each (chunk 6 model.lodging.photos) as |photoRow|}}
-                  <div class="row">
-                    {{#each photoRow as |photo|}}
-                      <div class="col-md-2">
-                        <img src="{{photo.path}}" alt="gallery photo" class="img-responsive">
-                      </div>
-                    {{/each}}
-                  </div>
-                {{/each}}
-
-              {{else}}
-                <button class="btn btn-default" {{action "toggleSeeMore"}}>See more photos ({{model.lodging.photos.length}})</button>
-              <div class="row">
-                <div class="col-md-6">
-                  <img src="{{model.lodging.photos.[0].path}}" alt="Lodging photo" class="img-responsive"/>
+            {{!--
+            {{#if seeMorePhotos}}
+              <button class="btn btn-default" {{action "toggleSeeMore"}}>See less photos</button>
+              {{#each (chunk 6 model.lodging.photos) as |photoRow|}}
+                <div class="row">
+                  {{#each photoRow as |photo|}}
+                    <div class="col-md-2">
+                      <img src="{{photo.path}}" alt="gallery photo" class="img-responsive">
+                    </div>
+                  {{/each}}
                 </div>
-                <div class="col-md-6">
-                  <div class="row gallery-lodging-right">
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[1]}}
-                      <img src="{{model.lodging.photos.[1].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[2]}}
-                        <img src="{{model.lodging.photos.[2].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
+              {{/each}}
+
+            {{else}}
+              <button class="btn btn-default" {{action "toggleSeeMore"}}>See more photos ({{model.lodging.photos.length}})</button>
+            <div class="row">
+              <div class="col-md-6">
+                <img src="{{model.lodging.photos.[0].path}}" alt="Lodging photo" class="img-responsive"/>
+              </div>
+              <div class="col-md-6">
+                <div class="row gallery-lodging-right">
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[1]}}
+                    <img src="{{model.lodging.photos.[1].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
                   </div>
-                  <div class="row gallery-lodging-right">
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[3]}}
-                        <img src="{{model.lodging.photos.[3].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[4]}}
-                        <img src="{{model.lodging.photos.[4].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[2]}}
+                      <img src="{{model.lodging.photos.[2].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
                   </div>
-                  <div class="row gallery-lodging-right">
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[5]}}
-                        <img src="{{model.lodging.photos.[5].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
-                    <div class="col-md-6">
-                      {{#if model.lodging.photos.[6]}}
-                        <img src="{{model.lodging.photos.[6].path}}" alt="Lodging photo" class="img-responsive"/>
-                      {{/if}}
-                    </div>
+                </div>
+                <div class="row gallery-lodging-right">
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[3]}}
+                      <img src="{{model.lodging.photos.[3].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
+                  </div>
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[4]}}
+                      <img src="{{model.lodging.photos.[4].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
+                  </div>
+                </div>
+                <div class="row gallery-lodging-right">
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[5]}}
+                      <img src="{{model.lodging.photos.[5].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
+                  </div>
+                  <div class="col-md-6">
+                    {{#if model.lodging.photos.[6]}}
+                      <img src="{{model.lodging.photos.[6].path}}" alt="Lodging photo" class="img-responsive"/>
+                    {{/if}}
                   </div>
                 </div>
               </div>
-              {{/if}}
+            </div>
+            {{/if}} --}}
+            {{#photo-swipe items=photos as |img|}}
+                <img class="admin-gallery" src={{img.src}} alt={{img.title}}>
+            {{/photo-swipe}}
 
             {{else}}
             <div>No pictures available for this lodging.</div>

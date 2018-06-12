@@ -220,7 +220,7 @@ define('ember-app/tests/controllers/lodging.jshint', ['exports'], function (expo
   QUnit.module('JSHint | controllers/lodging.js');
   QUnit.test('should pass jshint', function (assert) {
     assert.expect(1);
-    assert.ok(false, 'controllers/lodging.js should pass jshint.\ncontrollers/lodging.js: line 10, col 5, \'alias\' is defined but never used.\n\n1 error');
+    assert.ok(false, 'controllers/lodging.js should pass jshint.\ncontrollers/lodging.js: line 56, col 9, Missing semicolon.\ncontrollers/lodging.js: line 57, col 7, Missing semicolon.\ncontrollers/lodging.js: line 10, col 5, \'alias\' is defined but never used.\n\n3 errors');
   });
 });
 define('ember-app/tests/controllers/lodgings/index.jshint', ['exports'], function (exports) {

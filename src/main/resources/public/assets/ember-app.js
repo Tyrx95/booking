@@ -322,6 +322,9 @@ define('ember-app/components/paypal-button', ['exports', '@ember/component', '@e
     }
   });
 });
+define('ember-app/components/photo-swipe', ['exports', 'ember-cli-photoswipe/components/photo-swipe'], function (exports, _emberCliPhotoswipeComponentsPhotoSwipe) {
+  exports['default'] = _emberCliPhotoswipeComponentsPhotoSwipe['default'];
+});
 define('ember-app/components/price-range', ['exports', 'ember'], function (exports, _ember) {
   var computed = _ember['default'].computed;
   exports['default'] = _ember['default'].Component.extend({
@@ -985,6 +988,19 @@ define('ember-app/controllers/lodging', ['exports', 'ember', 'jquery'], function
         return JSON.parse(this.get('model.lodging.areaInfo')).airports;
       }
     }),*/
+
+    photos: computed('model.lodging.photos', function () {
+      var photos = [];
+      this.get('model.lodging.photos').forEach(function (photo) {
+        photos.pushObject({
+          src: photo.path,
+          w: 1024,
+          h: 768,
+          title: 'Lodging image'
+        });
+      });
+      return photos;
+    }),
 
     hasMap: computed('model.lodging.latitude', 'model.lodging.longitude', function () {
       return this.get('model.lodging.latitude') !== 0 && this.get('model.lodging.longitude') !== 0;
@@ -9850,6 +9866,562 @@ define("ember-app/templates/components/page-numbers", ["exports"], function (exp
     };
   })());
 });
+define("ember-app/templates/components/photo-swipe", ["exports"], function (exports) {
+  exports["default"] = Ember.HTMLBars.template((function () {
+    var child0 = (function () {
+      var child0 = (function () {
+        var child0 = (function () {
+          return {
+            meta: {
+              "revision": "Ember@2.7.3",
+              "loc": {
+                "source": null,
+                "start": {
+                  "line": 3,
+                  "column": 4
+                },
+                "end": {
+                  "line": 7,
+                  "column": 4
+                }
+              },
+              "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+            },
+            isEmpty: false,
+            arity: 1,
+            cachedFragment: null,
+            hasRendered: false,
+            buildFragment: function buildFragment(dom) {
+              var el0 = dom.createDocumentFragment();
+              var el1 = dom.createTextNode("      ");
+              dom.appendChild(el0, el1);
+              var el1 = dom.createElement("a");
+              var el2 = dom.createTextNode("\n          ");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createComment("");
+              dom.appendChild(el1, el2);
+              var el2 = dom.createTextNode("\n      ");
+              dom.appendChild(el1, el2);
+              dom.appendChild(el0, el1);
+              var el1 = dom.createTextNode("\n");
+              dom.appendChild(el0, el1);
+              return el0;
+            },
+            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+              var element0 = dom.childAt(fragment, [1]);
+              var morphs = new Array(4);
+              morphs[0] = dom.createAttrMorph(element0, 'data-width');
+              morphs[1] = dom.createAttrMorph(element0, 'data-height');
+              morphs[2] = dom.createElementMorph(element0);
+              morphs[3] = dom.createMorphAt(element0, 1, 1);
+              return morphs;
+            },
+            statements: [["attribute", "data-width", ["get", "item.w", ["loc", [null, [4, 54], [4, 60]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "data-height", ["get", "item.h", ["loc", [null, [4, 77], [4, 83]]], 0, 0, 0, 0], 0, 0, 0, 0], ["element", "action", ["launchGallery", ["get", "item", ["loc", [null, [4, 34], [4, 38]]], 0, 0, 0, 0]], [], ["loc", [null, [4, 9], [4, 40]]], 0, 0], ["inline", "yield", [["get", "item", ["loc", [null, [5, 18], [5, 22]]], 0, 0, 0, 0]], [], ["loc", [null, [5, 10], [5, 24]]], 0, 0]],
+            locals: ["item"],
+            templates: []
+          };
+        })();
+        return {
+          meta: {
+            "revision": "Ember@2.7.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 2,
+                "column": 2
+              },
+              "end": {
+                "line": 8,
+                "column": 2
+              }
+            },
+            "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+            dom.insertBoundary(fragment, 0);
+            dom.insertBoundary(fragment, null);
+            return morphs;
+          },
+          statements: [["block", "each", [["get", "items", ["loc", [null, [3, 12], [3, 17]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [3, 4], [7, 13]]]]],
+          locals: [],
+          templates: [child0]
+        };
+      })();
+      var child1 = (function () {
+        return {
+          meta: {
+            "revision": "Ember@2.7.3",
+            "loc": {
+              "source": null,
+              "start": {
+                "line": 8,
+                "column": 2
+              },
+              "end": {
+                "line": 11,
+                "column": 2
+              }
+            },
+            "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+          },
+          isEmpty: false,
+          arity: 0,
+          cachedFragment: null,
+          hasRendered: false,
+          buildFragment: function buildFragment(dom) {
+            var el0 = dom.createDocumentFragment();
+            var el1 = dom.createTextNode("    ");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createComment("");
+            dom.appendChild(el0, el1);
+            var el1 = dom.createTextNode("\n");
+            dom.appendChild(el0, el1);
+            return el0;
+          },
+          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+            var morphs = new Array(1);
+            morphs[0] = dom.createMorphAt(fragment, 1, 1, contextualElement);
+            return morphs;
+          },
+          statements: [["content", "yield", ["loc", [null, [10, 4], [10, 13]]], 0, 0, 0, 0]],
+          locals: [],
+          templates: []
+        };
+      })();
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 1,
+              "column": 0
+            },
+            "end": {
+              "line": 12,
+              "column": 0
+            }
+          },
+          "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["block", "if", [["get", "items", ["loc", [null, [2, 8], [2, 13]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [2, 2], [11, 9]]]]],
+        locals: [],
+        templates: [child0, child1]
+      };
+    })();
+    var child1 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 40,
+              "column": 10
+            },
+            "end": {
+              "line": 42,
+              "column": 10
+            }
+          },
+          "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "pswp__button pswp__button--close");
+          dom.setAttribute(el1, "title", "Close (Esc)");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child2 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 44,
+              "column": 10
+            },
+            "end": {
+              "line": 46,
+              "column": 10
+            }
+          },
+          "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "pswp__button pswp__button--share");
+          dom.setAttribute(el1, "title", "Share");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child3 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 48,
+              "column": 10
+            },
+            "end": {
+              "line": 50,
+              "column": 10
+            }
+          },
+          "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "pswp__button pswp__button--fs");
+          dom.setAttribute(el1, "title", "Toggle fullscreen");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child4 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 52,
+              "column": 10
+            },
+            "end": {
+              "line": 54,
+              "column": 10
+            }
+          },
+          "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createTextNode("            ");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createElement("button");
+          dom.setAttribute(el1, "class", "pswp__button pswp__button--zoom");
+          dom.setAttribute(el1, "title", "Zoom in/out");
+          dom.appendChild(el0, el1);
+          var el1 = dom.createTextNode("\n");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes() {
+          return [];
+        },
+        statements: [],
+        locals: [],
+        templates: []
+      };
+    })();
+    return {
+      meta: {
+        "revision": "Ember@2.7.3",
+        "loc": {
+          "source": null,
+          "start": {
+            "line": 1,
+            "column": 0
+          },
+          "end": {
+            "line": 85,
+            "column": 0
+          }
+        },
+        "moduleName": "ember-app/templates/components/photo-swipe.hbs"
+      },
+      isEmpty: false,
+      arity: 0,
+      cachedFragment: null,
+      hasRendered: false,
+      buildFragment: function buildFragment(dom) {
+        var el0 = dom.createDocumentFragment();
+        var el1 = dom.createComment("");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createComment(" Root element of PhotoSwipe. Must have class pswp. ");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        var el1 = dom.createElement("div");
+        dom.setAttribute(el1, "class", "pswp");
+        dom.setAttribute(el1, "tabindex", "-1");
+        dom.setAttribute(el1, "role", "dialog");
+        dom.setAttribute(el1, "aria-hidden", "true");
+        var el2 = dom.createTextNode("\n\n  ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" Background of PhotoSwipe.\n    It's a separate element, as animating opacity is faster than rgba(). ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "pswp__bg");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createComment(" Slides wrapper with overflow:hidden. ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n    ");
+        dom.appendChild(el1, el2);
+        var el2 = dom.createElement("div");
+        dom.setAttribute(el2, "class", "pswp__scroll-wrap");
+        var el3 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" Container that holds slides. PhotoSwipe keeps only 3 slides in DOM to save memory. ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "pswp__container");
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createComment(" don't modify these 3 pswp__item elements, data is added later on ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__item");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__item");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__item");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n      ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createComment(" Default (PhotoSwipeUI_Default) interface on top of sliding area. Can be changed. ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n      ");
+        dom.appendChild(el2, el3);
+        var el3 = dom.createElement("div");
+        dom.setAttribute(el3, "class", "pswp__ui pswp__ui--hidden");
+        var el4 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__top-bar");
+        var el5 = dom.createTextNode("\n\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("  Controls are self-explanatory. Order can be changed. ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "pswp__counter");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment("");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createComment(" Preloader demo http://codepen.io/dimsemenov/pen/yyBWoR ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "pswp__preloader");
+        var el6 = dom.createTextNode("\n            ");
+        dom.appendChild(el5, el6);
+        var el6 = dom.createElement("div");
+        dom.setAttribute(el6, "class", "pswp__preloader__icn");
+        var el7 = dom.createTextNode("\n              ");
+        dom.appendChild(el6, el7);
+        var el7 = dom.createElement("div");
+        dom.setAttribute(el7, "class", "pswp__preloader__cut");
+        var el8 = dom.createTextNode("\n                ");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createElement("div");
+        dom.setAttribute(el8, "class", "pswp__preloader__donut");
+        dom.appendChild(el7, el8);
+        var el8 = dom.createTextNode("\n              ");
+        dom.appendChild(el7, el8);
+        dom.appendChild(el6, el7);
+        var el7 = dom.createTextNode("\n            ");
+        dom.appendChild(el6, el7);
+        dom.appendChild(el5, el6);
+        var el6 = dom.createTextNode("\n          ");
+        dom.appendChild(el5, el6);
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__share-modal pswp__share-modal--hidden pswp__single-tap");
+        var el5 = dom.createTextNode("\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "pswp__share-tooltip");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4, "class", "pswp__button pswp__button--arrow--left");
+        dom.setAttribute(el4, "title", "Previous (arrow left)");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("button");
+        dom.setAttribute(el4, "class", "pswp__button pswp__button--arrow--right");
+        dom.setAttribute(el4, "title", "Next (arrow right)");
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n        ");
+        dom.appendChild(el3, el4);
+        var el4 = dom.createElement("div");
+        dom.setAttribute(el4, "class", "pswp__caption");
+        var el5 = dom.createTextNode("\n          ");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createElement("div");
+        dom.setAttribute(el5, "class", "pswp__caption__center");
+        dom.appendChild(el4, el5);
+        var el5 = dom.createTextNode("\n        ");
+        dom.appendChild(el4, el5);
+        dom.appendChild(el3, el4);
+        var el4 = dom.createTextNode("\n\n      ");
+        dom.appendChild(el3, el4);
+        dom.appendChild(el2, el3);
+        var el3 = dom.createTextNode("\n\n    ");
+        dom.appendChild(el2, el3);
+        dom.appendChild(el1, el2);
+        var el2 = dom.createTextNode("\n\n");
+        dom.appendChild(el1, el2);
+        dom.appendChild(el0, el1);
+        var el1 = dom.createTextNode("\n");
+        dom.appendChild(el0, el1);
+        return el0;
+      },
+      buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+        var element1 = dom.childAt(fragment, [3, 7, 7, 1]);
+        var morphs = new Array(5);
+        morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+        morphs[1] = dom.createMorphAt(element1, 5, 5);
+        morphs[2] = dom.createMorphAt(element1, 7, 7);
+        morphs[3] = dom.createMorphAt(element1, 9, 9);
+        morphs[4] = dom.createMorphAt(element1, 11, 11);
+        dom.insertBoundary(fragment, 0);
+        return morphs;
+      },
+      statements: [["block", "if", [["get", "hasBlock", ["loc", [null, [1, 6], [1, 14]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [1, 0], [12, 7]]]], ["block", "unless", [["get", "options.hideClose", ["loc", [null, [40, 20], [40, 37]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [40, 10], [42, 21]]]], ["block", "unless", [["get", "options.hideShare", ["loc", [null, [44, 20], [44, 37]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [44, 10], [46, 21]]]], ["block", "unless", [["get", "options.hideToggleFullScreen", ["loc", [null, [48, 20], [48, 48]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [48, 10], [50, 21]]]], ["block", "unless", [["get", "options.hideZoomInOut", ["loc", [null, [52, 20], [52, 41]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [52, 10], [54, 21]]]]],
+      locals: [],
+      templates: [child0, child1, child2, child3, child4]
+    };
+  })());
+});
 define("ember-app/templates/components/popular-locations", ["exports"], function (exports) {
   exports["default"] = Ember.HTMLBars.template((function () {
     var child0 = (function () {
@@ -11260,9 +11832,9 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element27 = dom.childAt(fragment, [1]);
+          var element13 = dom.childAt(fragment, [1]);
           var morphs = new Array(1);
-          morphs[0] = dom.createAttrMorph(element27, 'src');
+          morphs[0] = dom.createAttrMorph(element13, 'src');
           return morphs;
         },
         statements: [["attribute", "src", ["concat", [["get", "model.lodging.profileImagePath", ["loc", [null, [9, 24], [9, 54]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
@@ -11390,10 +11962,10 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element26 = dom.childAt(fragment, [1]);
+          var element12 = dom.childAt(fragment, [1]);
           var morphs = new Array(2);
-          morphs[0] = dom.createElementMorph(element26);
-          morphs[1] = dom.createMorphAt(element26, 0, 0);
+          morphs[0] = dom.createElementMorph(element12);
+          morphs[1] = dom.createMorphAt(element12, 0, 0);
           return morphs;
         },
         statements: [["element", "action", ["showRatingDialog"], [], ["loc", [null, [26, 120], [26, 149]]], 0, 0], ["inline", "fa-icon", ["star"], [], ["loc", [null, [26, 150], [26, 168]]], 0, 0]],
@@ -11521,11 +12093,11 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
               return el0;
             },
             buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element21 = dom.childAt(fragment, [1]);
+              var element7 = dom.childAt(fragment, [1]);
               var morphs = new Array(3);
-              morphs[0] = dom.createElementMorph(element21);
-              morphs[1] = dom.createMorphAt(element21, 0, 0);
-              morphs[2] = dom.createMorphAt(element21, 2, 2);
+              morphs[0] = dom.createElementMorph(element7);
+              morphs[1] = dom.createMorphAt(element7, 0, 0);
+              morphs[2] = dom.createMorphAt(element7, 2, 2);
               return morphs;
             },
             statements: [["element", "action", ["reserve", ["get", "suggestion", ["loc", [null, [66, 43], [66, 53]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 24], [66, 55]]], 0, 0], ["inline", "millis-to-date", [["get", "suggestion.startDate", ["loc", [null, [66, 73], [66, 93]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 56], [66, 95]]], 0, 0], ["inline", "millis-to-date", [["get", "suggestion.endDate", ["loc", [null, [66, 115], [66, 133]]], 0, 0, 0, 0]], [], ["loc", [null, [66, 98], [66, 135]]], 0, 0]],
@@ -11660,18 +12232,18 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element22 = dom.childAt(fragment, [1]);
-          var element23 = dom.childAt(fragment, [3]);
-          var element24 = dom.childAt(element23, [1]);
-          var element25 = dom.childAt(element23, [2]);
+          var element8 = dom.childAt(fragment, [1]);
+          var element9 = dom.childAt(fragment, [3]);
+          var element10 = dom.childAt(element9, [1]);
+          var element11 = dom.childAt(element9, [2]);
           var morphs = new Array(8);
-          morphs[0] = dom.createMorphAt(element22, 1, 1);
-          morphs[1] = dom.createMorphAt(element22, 3, 3);
-          morphs[2] = dom.createMorphAt(element22, 5, 5);
-          morphs[3] = dom.createMorphAt(element24, 0, 0);
-          morphs[4] = dom.createMorphAt(element24, 2, 2);
-          morphs[5] = dom.createMorphAt(element25, 0, 0);
-          morphs[6] = dom.createMorphAt(element25, 2, 2);
+          morphs[0] = dom.createMorphAt(element8, 1, 1);
+          morphs[1] = dom.createMorphAt(element8, 3, 3);
+          morphs[2] = dom.createMorphAt(element8, 5, 5);
+          morphs[3] = dom.createMorphAt(element10, 0, 0);
+          morphs[4] = dom.createMorphAt(element10, 2, 2);
+          morphs[5] = dom.createMorphAt(element11, 0, 0);
+          morphs[6] = dom.createMorphAt(element11, 2, 2);
           morphs[7] = dom.createMorphAt(fragment, 5, 5, contextualElement);
           dom.insertBoundary(fragment, null);
           return morphs;
@@ -11791,12 +12363,12 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element19 = dom.childAt(fragment, [1, 1]);
-          var element20 = dom.childAt(element19, [1, 1]);
+          var element5 = dom.childAt(fragment, [1, 1]);
+          var element6 = dom.childAt(element5, [1, 1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element20, [1, 1]), 0, 0);
-          morphs[1] = dom.createMorphAt(dom.childAt(element20, [3, 1]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element19, [3, 1, 1]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(element6, [1, 1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element6, [3, 1]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element5, [3, 1, 1]), 0, 0);
           return morphs;
         },
         statements: [["content", "item.name", ["loc", [null, [101, 52], [101, 65]]], 0, 0, 0, 0], ["content", "item.price", ["loc", [null, [104, 96], [104, 110]]], 0, 0, 0, 0], ["content", "item.description", ["loc", [null, [110, 57], [110, 77]]], 0, 0, 0, 0]],
@@ -11867,7 +12439,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           dom.setAttribute(el6, "class", "info-price");
           var el7 = dom.createElement("span");
           dom.setAttribute(el7, "class", "areaInfo-price-sign");
-          var el8 = dom.createTextNode("$");
+          var el8 = dom.createTextNode("km");
           dom.appendChild(el7, el8);
           dom.appendChild(el6, el7);
           var el7 = dom.createComment("");
@@ -11914,15 +12486,15 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element17 = dom.childAt(fragment, [1, 1]);
-          var element18 = dom.childAt(element17, [1, 1]);
+          var element3 = dom.childAt(fragment, [1, 1]);
+          var element4 = dom.childAt(element3, [1, 1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element18, [1, 1]), 0, 0);
-          morphs[1] = dom.createMorphAt(dom.childAt(element18, [3, 1]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element17, [3, 1, 1]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(element4, [1, 1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element4, [3, 1]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element3, [3, 1, 1]), 0, 0);
           return morphs;
         },
-        statements: [["content", "item.name", ["loc", [null, [124, 52], [124, 65]]], 0, 0, 0, 0], ["content", "item.price", ["loc", [null, [127, 95], [127, 109]]], 0, 0, 0, 0], ["content", "item.description", ["loc", [null, [133, 57], [133, 77]]], 0, 0, 0, 0]],
+        statements: [["content", "item.name", ["loc", [null, [124, 52], [124, 65]]], 0, 0, 0, 0], ["content", "item.price", ["loc", [null, [127, 96], [127, 110]]], 0, 0, 0, 0], ["content", "item.description", ["loc", [null, [133, 57], [133, 77]]], 0, 0, 0, 0]],
         locals: ["item", "index"],
         templates: []
       };
@@ -11990,7 +12562,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           dom.setAttribute(el6, "class", "info-price");
           var el7 = dom.createElement("span");
           dom.setAttribute(el7, "class", "areaInfo-price-sign");
-          var el8 = dom.createTextNode("$");
+          var el8 = dom.createTextNode("km");
           dom.appendChild(el7, el8);
           dom.appendChild(el6, el7);
           var el7 = dom.createComment("");
@@ -12037,608 +12609,62 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           return el0;
         },
         buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var element15 = dom.childAt(fragment, [1, 1]);
-          var element16 = dom.childAt(element15, [1, 1]);
+          var element1 = dom.childAt(fragment, [1, 1]);
+          var element2 = dom.childAt(element1, [1, 1]);
           var morphs = new Array(3);
-          morphs[0] = dom.createMorphAt(dom.childAt(element16, [1, 1]), 0, 0);
-          morphs[1] = dom.createMorphAt(dom.childAt(element16, [3, 1]), 1, 1);
-          morphs[2] = dom.createMorphAt(dom.childAt(element15, [3, 1, 1]), 0, 0);
+          morphs[0] = dom.createMorphAt(dom.childAt(element2, [1, 1]), 0, 0);
+          morphs[1] = dom.createMorphAt(dom.childAt(element2, [3, 1]), 1, 1);
+          morphs[2] = dom.createMorphAt(dom.childAt(element1, [3, 1, 1]), 0, 0);
           return morphs;
         },
-        statements: [["content", "item.name", ["loc", [null, [147, 52], [147, 65]]], 0, 0, 0, 0], ["content", "item.price", ["loc", [null, [150, 95], [150, 109]]], 0, 0, 0, 0], ["content", "item.description", ["loc", [null, [156, 57], [156, 77]]], 0, 0, 0, 0]],
+        statements: [["content", "item.name", ["loc", [null, [147, 52], [147, 65]]], 0, 0, 0, 0], ["content", "item.price", ["loc", [null, [150, 96], [150, 110]]], 0, 0, 0, 0], ["content", "item.description", ["loc", [null, [156, 57], [156, 77]]], 0, 0, 0, 0]],
         locals: ["item", "index"],
         templates: []
       };
     })();
     var child8 = (function () {
       var child0 = (function () {
-        var child0 = (function () {
-          var child0 = (function () {
-            return {
-              meta: {
-                "revision": "Ember@2.7.3",
-                "loc": {
-                  "source": null,
-                  "start": {
-                    "line": 176,
-                    "column": 20
-                  },
-                  "end": {
-                    "line": 180,
-                    "column": 20
-                  }
-                },
-                "moduleName": "ember-app/templates/lodging.hbs"
-              },
-              isEmpty: false,
-              arity: 1,
-              cachedFragment: null,
-              hasRendered: false,
-              buildFragment: function buildFragment(dom) {
-                var el0 = dom.createDocumentFragment();
-                var el1 = dom.createTextNode("                      ");
-                dom.appendChild(el0, el1);
-                var el1 = dom.createElement("div");
-                dom.setAttribute(el1, "class", "col-md-2");
-                var el2 = dom.createTextNode("\n                        ");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createElement("img");
-                dom.setAttribute(el2, "alt", "gallery photo");
-                dom.setAttribute(el2, "class", "img-responsive");
-                dom.appendChild(el1, el2);
-                var el2 = dom.createTextNode("\n                      ");
-                dom.appendChild(el1, el2);
-                dom.appendChild(el0, el1);
-                var el1 = dom.createTextNode("\n");
-                dom.appendChild(el0, el1);
-                return el0;
-              },
-              buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-                var element13 = dom.childAt(fragment, [1, 1]);
-                var morphs = new Array(1);
-                morphs[0] = dom.createAttrMorph(element13, 'src');
-                return morphs;
-              },
-              statements: [["attribute", "src", ["concat", [["get", "photo.path", ["loc", [null, [178, 36], [178, 46]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-              locals: ["photo"],
-              templates: []
-            };
-          })();
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 174,
-                  "column": 16
-                },
-                "end": {
-                  "line": 182,
-                  "column": 16
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 1,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                  ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("div");
-              dom.setAttribute(el1, "class", "row");
-              var el2 = dom.createTextNode("\n");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createComment("");
-              dom.appendChild(el1, el2);
-              var el2 = dom.createTextNode("                  ");
-              dom.appendChild(el1, el2);
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var morphs = new Array(1);
-              morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 1, 1);
-              return morphs;
-            },
-            statements: [["block", "each", [["get", "photoRow", ["loc", [null, [176, 28], [176, 36]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [176, 20], [180, 29]]]]],
-            locals: ["photoRow"],
-            templates: [child0]
-          };
-        })();
         return {
           meta: {
             "revision": "Ember@2.7.3",
             "loc": {
               "source": null,
               "start": {
-                "line": 172,
-                "column": 14
+                "line": 231,
+                "column": 12
               },
               "end": {
-                "line": 184,
-                "column": 14
+                "line": 233,
+                "column": 12
               }
             },
             "moduleName": "ember-app/templates/lodging.hbs"
           },
           isEmpty: false,
-          arity: 0,
+          arity: 1,
           cachedFragment: null,
           hasRendered: false,
           buildFragment: function buildFragment(dom) {
             var el0 = dom.createDocumentFragment();
             var el1 = dom.createTextNode("                ");
             dom.appendChild(el0, el1);
-            var el1 = dom.createElement("button");
-            dom.setAttribute(el1, "class", "btn btn-default");
-            var el2 = dom.createTextNode("See less photos");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createComment("");
+            var el1 = dom.createElement("img");
+            dom.setAttribute(el1, "class", "admin-gallery");
             dom.appendChild(el0, el1);
             var el1 = dom.createTextNode("\n");
             dom.appendChild(el0, el1);
             return el0;
           },
           buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element14 = dom.childAt(fragment, [1]);
+            var element0 = dom.childAt(fragment, [1]);
             var morphs = new Array(2);
-            morphs[0] = dom.createElementMorph(element14);
-            morphs[1] = dom.createMorphAt(fragment, 3, 3, contextualElement);
+            morphs[0] = dom.createAttrMorph(element0, 'src');
+            morphs[1] = dom.createAttrMorph(element0, 'alt');
             return morphs;
           },
-          statements: [["element", "action", ["toggleSeeMore"], [], ["loc", [null, [173, 48], [173, 74]]], 0, 0], ["block", "each", [["subexpr", "chunk", [6, ["get", "model.lodging.photos", ["loc", [null, [174, 33], [174, 53]]], 0, 0, 0, 0]], [], ["loc", [null, [174, 24], [174, 54]]], 0, 0]], [], 0, null, ["loc", [null, [174, 16], [182, 25]]]]],
-          locals: [],
-          templates: [child0]
-        };
-      })();
-      var child1 = (function () {
-        var child0 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 193,
-                  "column": 22
-                },
-                "end": {
-                  "line": 195,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                      ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element5 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element5, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.1.path", ["loc", [null, [194, 34], [194, 63]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child1 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 198,
-                  "column": 22
-                },
-                "end": {
-                  "line": 200,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                        ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element4 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element4, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.2.path", ["loc", [null, [199, 36], [199, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child2 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 205,
-                  "column": 22
-                },
-                "end": {
-                  "line": 207,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                        ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element3 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element3, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.3.path", ["loc", [null, [206, 36], [206, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child3 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 210,
-                  "column": 22
-                },
-                "end": {
-                  "line": 212,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                        ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element2 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element2, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.4.path", ["loc", [null, [211, 36], [211, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child4 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 217,
-                  "column": 22
-                },
-                "end": {
-                  "line": 219,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                        ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element1 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element1, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.5.path", ["loc", [null, [218, 36], [218, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        var child5 = (function () {
-          return {
-            meta: {
-              "revision": "Ember@2.7.3",
-              "loc": {
-                "source": null,
-                "start": {
-                  "line": 222,
-                  "column": 22
-                },
-                "end": {
-                  "line": 224,
-                  "column": 22
-                }
-              },
-              "moduleName": "ember-app/templates/lodging.hbs"
-            },
-            isEmpty: false,
-            arity: 0,
-            cachedFragment: null,
-            hasRendered: false,
-            buildFragment: function buildFragment(dom) {
-              var el0 = dom.createDocumentFragment();
-              var el1 = dom.createTextNode("                        ");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createElement("img");
-              dom.setAttribute(el1, "alt", "Lodging photo");
-              dom.setAttribute(el1, "class", "img-responsive");
-              dom.appendChild(el0, el1);
-              var el1 = dom.createTextNode("\n");
-              dom.appendChild(el0, el1);
-              return el0;
-            },
-            buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-              var element0 = dom.childAt(fragment, [1]);
-              var morphs = new Array(1);
-              morphs[0] = dom.createAttrMorph(element0, 'src');
-              return morphs;
-            },
-            statements: [["attribute", "src", ["concat", [["get", "model.lodging.photos.6.path", ["loc", [null, [223, 36], [223, 65]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0]],
-            locals: [],
-            templates: []
-          };
-        })();
-        return {
-          meta: {
-            "revision": "Ember@2.7.3",
-            "loc": {
-              "source": null,
-              "start": {
-                "line": 184,
-                "column": 14
-              },
-              "end": {
-                "line": 229,
-                "column": 14
-              }
-            },
-            "moduleName": "ember-app/templates/lodging.hbs"
-          },
-          isEmpty: false,
-          arity: 0,
-          cachedFragment: null,
-          hasRendered: false,
-          buildFragment: function buildFragment(dom) {
-            var el0 = dom.createDocumentFragment();
-            var el1 = dom.createTextNode("                ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("button");
-            dom.setAttribute(el1, "class", "btn btn-default");
-            var el2 = dom.createTextNode("See more photos (");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createComment("");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode(")");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n              ");
-            dom.appendChild(el0, el1);
-            var el1 = dom.createElement("div");
-            dom.setAttribute(el1, "class", "row");
-            var el2 = dom.createTextNode("\n                ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "col-md-6");
-            var el3 = dom.createTextNode("\n                  ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("img");
-            dom.setAttribute(el3, "alt", "Lodging photo");
-            dom.setAttribute(el3, "class", "img-responsive");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n                ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n                ");
-            dom.appendChild(el1, el2);
-            var el2 = dom.createElement("div");
-            dom.setAttribute(el2, "class", "col-md-6");
-            var el3 = dom.createTextNode("\n                  ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "row gallery-lodging-right");
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                  ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n                  ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "row gallery-lodging-right");
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                  ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n                  ");
-            dom.appendChild(el2, el3);
-            var el3 = dom.createElement("div");
-            dom.setAttribute(el3, "class", "row gallery-lodging-right");
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                    ");
-            dom.appendChild(el3, el4);
-            var el4 = dom.createElement("div");
-            dom.setAttribute(el4, "class", "col-md-6");
-            var el5 = dom.createTextNode("\n");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createComment("");
-            dom.appendChild(el4, el5);
-            var el5 = dom.createTextNode("                    ");
-            dom.appendChild(el4, el5);
-            dom.appendChild(el3, el4);
-            var el4 = dom.createTextNode("\n                  ");
-            dom.appendChild(el3, el4);
-            dom.appendChild(el2, el3);
-            var el3 = dom.createTextNode("\n                ");
-            dom.appendChild(el2, el3);
-            dom.appendChild(el1, el2);
-            var el2 = dom.createTextNode("\n              ");
-            dom.appendChild(el1, el2);
-            dom.appendChild(el0, el1);
-            var el1 = dom.createTextNode("\n");
-            dom.appendChild(el0, el1);
-            return el0;
-          },
-          buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-            var element6 = dom.childAt(fragment, [1]);
-            var element7 = dom.childAt(fragment, [3]);
-            var element8 = dom.childAt(element7, [1, 1]);
-            var element9 = dom.childAt(element7, [3]);
-            var element10 = dom.childAt(element9, [1]);
-            var element11 = dom.childAt(element9, [3]);
-            var element12 = dom.childAt(element9, [5]);
-            var morphs = new Array(9);
-            morphs[0] = dom.createElementMorph(element6);
-            morphs[1] = dom.createMorphAt(element6, 1, 1);
-            morphs[2] = dom.createAttrMorph(element8, 'src');
-            morphs[3] = dom.createMorphAt(dom.childAt(element10, [1]), 1, 1);
-            morphs[4] = dom.createMorphAt(dom.childAt(element10, [3]), 1, 1);
-            morphs[5] = dom.createMorphAt(dom.childAt(element11, [1]), 1, 1);
-            morphs[6] = dom.createMorphAt(dom.childAt(element11, [3]), 1, 1);
-            morphs[7] = dom.createMorphAt(dom.childAt(element12, [1]), 1, 1);
-            morphs[8] = dom.createMorphAt(dom.childAt(element12, [3]), 1, 1);
-            return morphs;
-          },
-          statements: [["element", "action", ["toggleSeeMore"], [], ["loc", [null, [185, 48], [185, 74]]], 0, 0], ["content", "model.lodging.photos.length", ["loc", [null, [185, 92], [185, 123]]], 0, 0, 0, 0], ["attribute", "src", ["concat", [["get", "model.lodging.photos.0.path", ["loc", [null, [188, 30], [188, 59]]], 0, 0, 0, 0]], 0, 0, 0, 0, 0], 0, 0, 0, 0], ["block", "if", [["get", "model.lodging.photos.1", ["loc", [null, [193, 28], [193, 52]]], 0, 0, 0, 0]], [], 0, null, ["loc", [null, [193, 22], [195, 29]]]], ["block", "if", [["get", "model.lodging.photos.2", ["loc", [null, [198, 28], [198, 52]]], 0, 0, 0, 0]], [], 1, null, ["loc", [null, [198, 22], [200, 29]]]], ["block", "if", [["get", "model.lodging.photos.3", ["loc", [null, [205, 28], [205, 52]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [205, 22], [207, 29]]]], ["block", "if", [["get", "model.lodging.photos.4", ["loc", [null, [210, 28], [210, 52]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [210, 22], [212, 29]]]], ["block", "if", [["get", "model.lodging.photos.5", ["loc", [null, [217, 28], [217, 52]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [217, 22], [219, 29]]]], ["block", "if", [["get", "model.lodging.photos.6", ["loc", [null, [222, 28], [222, 52]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [222, 22], [224, 29]]]]],
-          locals: [],
-          templates: [child0, child1, child2, child3, child4, child5]
+          statements: [["attribute", "src", ["get", "img.src", ["loc", [null, [232, 49], [232, 56]]], 0, 0, 0, 0], 0, 0, 0, 0], ["attribute", "alt", ["get", "img.title", ["loc", [null, [232, 65], [232, 74]]], 0, 0, 0, 0], 0, 0, 0, 0]],
+          locals: ["img"],
+          templates: []
         };
       })();
       return {
@@ -12651,7 +12677,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
               "column": 12
             },
             "end": {
-              "line": 231,
+              "line": 235,
               "column": 12
             }
           },
@@ -12675,9 +12701,9 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           dom.insertBoundary(fragment, 0);
           return morphs;
         },
-        statements: [["block", "if", [["get", "seeMorePhotos", ["loc", [null, [172, 20], [172, 33]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [172, 14], [229, 21]]]]],
+        statements: [["block", "photo-swipe", [], ["items", ["subexpr", "@mut", [["get", "photos", ["loc", [null, [231, 33], [231, 39]]], 0, 0, 0, 0]], [], [], 0, 0]], 0, null, ["loc", [null, [231, 12], [233, 28]]]]],
         locals: [],
-        templates: [child0, child1]
+        templates: [child0]
       };
     })();
     var child9 = (function () {
@@ -12687,11 +12713,11 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           "loc": {
             "source": null,
             "start": {
-              "line": 231,
+              "line": 235,
               "column": 12
             },
             "end": {
-              "line": 233,
+              "line": 237,
               "column": 12
             }
           },
@@ -12722,162 +12748,6 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
       };
     })();
     var child10 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 249,
-              "column": 10
-            },
-            "end": {
-              "line": 249,
-              "column": 101
-            }
-          },
-          "moduleName": "ember-app/templates/lodging.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [249, 83], [249, 101]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child11 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 250,
-              "column": 10
-            },
-            "end": {
-              "line": 250,
-              "column": 101
-            }
-          },
-          "moduleName": "ember-app/templates/lodging.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [250, 83], [250, 101]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child12 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 251,
-              "column": 10
-            },
-            "end": {
-              "line": 251,
-              "column": 101
-            }
-          },
-          "moduleName": "ember-app/templates/lodging.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [251, 83], [251, 101]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child13 = (function () {
-      return {
-        meta: {
-          "revision": "Ember@2.7.3",
-          "loc": {
-            "source": null,
-            "start": {
-              "line": 252,
-              "column": 10
-            },
-            "end": {
-              "line": 252,
-              "column": 101
-            }
-          },
-          "moduleName": "ember-app/templates/lodging.hbs"
-        },
-        isEmpty: false,
-        arity: 0,
-        cachedFragment: null,
-        hasRendered: false,
-        buildFragment: function buildFragment(dom) {
-          var el0 = dom.createDocumentFragment();
-          var el1 = dom.createComment("");
-          dom.appendChild(el0, el1);
-          return el0;
-        },
-        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-          var morphs = new Array(1);
-          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
-          dom.insertBoundary(fragment, 0);
-          dom.insertBoundary(fragment, null);
-          return morphs;
-        },
-        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [252, 83], [252, 101]]], 0, 0]],
-        locals: [],
-        templates: []
-      };
-    })();
-    var child14 = (function () {
       return {
         meta: {
           "revision": "Ember@2.7.3",
@@ -12916,7 +12786,124 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
         templates: []
       };
     })();
-    var child15 = (function () {
+    var child11 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 254,
+              "column": 10
+            },
+            "end": {
+              "line": 254,
+              "column": 101
+            }
+          },
+          "moduleName": "ember-app/templates/lodging.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [254, 83], [254, 101]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child12 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 255,
+              "column": 10
+            },
+            "end": {
+              "line": 255,
+              "column": 101
+            }
+          },
+          "moduleName": "ember-app/templates/lodging.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [255, 83], [255, 101]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child13 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 256,
+              "column": 10
+            },
+            "end": {
+              "line": 256,
+              "column": 101
+            }
+          },
+          "moduleName": "ember-app/templates/lodging.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [256, 83], [256, 101]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child14 = (function () {
       return {
         meta: {
           "revision": "Ember@2.7.3",
@@ -12924,10 +12911,49 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
             "source": null,
             "start": {
               "line": 257,
+              "column": 10
+            },
+            "end": {
+              "line": 257,
+              "column": 101
+            }
+          },
+          "moduleName": "ember-app/templates/lodging.hbs"
+        },
+        isEmpty: false,
+        arity: 0,
+        cachedFragment: null,
+        hasRendered: false,
+        buildFragment: function buildFragment(dom) {
+          var el0 = dom.createDocumentFragment();
+          var el1 = dom.createComment("");
+          dom.appendChild(el0, el1);
+          return el0;
+        },
+        buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
+          var morphs = new Array(1);
+          morphs[0] = dom.createMorphAt(fragment, 0, 0, contextualElement);
+          dom.insertBoundary(fragment, 0);
+          dom.insertBoundary(fragment, null);
+          return morphs;
+        },
+        statements: [["inline", "fa-icon", ["star"], [], ["loc", [null, [257, 83], [257, 101]]], 0, 0]],
+        locals: [],
+        templates: []
+      };
+    })();
+    var child15 = (function () {
+      return {
+        meta: {
+          "revision": "Ember@2.7.3",
+          "loc": {
+            "source": null,
+            "start": {
+              "line": 261,
               "column": 8
             },
             "end": {
-              "line": 259,
+              "line": 263,
               "column": 8
             }
           },
@@ -12955,7 +12981,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
           morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1]), 0, 0);
           return morphs;
         },
-        statements: [["content", "model.errorMessage", ["loc", [null, [258, 35], [258, 57]]], 0, 0, 0, 0]],
+        statements: [["content", "model.errorMessage", ["loc", [null, [262, 35], [262, 57]]], 0, 0, 0, 0]],
         locals: [],
         templates: []
       };
@@ -12970,7 +12996,7 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
             "column": 0
           },
           "end": {
-            "line": 268,
+            "line": 272,
             "column": 0
           }
         },
@@ -13531,52 +13557,52 @@ define("ember-app/templates/lodging", ["exports"], function (exports) {
         return el0;
       },
       buildRenderNodes: function buildRenderNodes(dom, fragment, contextualElement) {
-        var element28 = dom.childAt(fragment, [0]);
-        var element29 = dom.childAt(element28, [3, 1]);
-        var element30 = dom.childAt(element29, [1]);
-        var element31 = dom.childAt(element30, [3]);
-        var element32 = dom.childAt(element31, [3]);
-        var element33 = dom.childAt(element29, [3, 3]);
-        var element34 = dom.childAt(element33, [1]);
-        var element35 = dom.childAt(element34, [3]);
-        var element36 = dom.childAt(element35, [1]);
-        var element37 = dom.childAt(element33, [3]);
-        var element38 = dom.childAt(element33, [5, 5, 1, 1]);
-        var element39 = dom.childAt(fragment, [4, 1, 1, 5]);
-        var element40 = dom.childAt(element39, [1]);
-        var element41 = dom.childAt(element39, [5]);
+        var element14 = dom.childAt(fragment, [0]);
+        var element15 = dom.childAt(element14, [3, 1]);
+        var element16 = dom.childAt(element15, [1]);
+        var element17 = dom.childAt(element16, [3]);
+        var element18 = dom.childAt(element17, [3]);
+        var element19 = dom.childAt(element15, [3, 3]);
+        var element20 = dom.childAt(element19, [1]);
+        var element21 = dom.childAt(element20, [3]);
+        var element22 = dom.childAt(element21, [1]);
+        var element23 = dom.childAt(element19, [3]);
+        var element24 = dom.childAt(element19, [5, 5, 1, 1]);
+        var element25 = dom.childAt(fragment, [4, 1, 1, 5]);
+        var element26 = dom.childAt(element25, [1]);
+        var element27 = dom.childAt(element25, [5]);
         var morphs = new Array(28);
-        morphs[0] = dom.createMorphAt(element28, 1, 1);
-        morphs[1] = dom.createMorphAt(dom.childAt(element30, [1, 1]), 1, 1);
-        morphs[2] = dom.createMorphAt(dom.childAt(element31, [1]), 0, 0);
-        morphs[3] = dom.createMorphAt(element32, 1, 1);
-        morphs[4] = dom.createMorphAt(dom.childAt(element32, [3]), 1, 1);
-        morphs[5] = dom.createMorphAt(element32, 5, 5);
-        morphs[6] = dom.createMorphAt(dom.childAt(element32, [7]), 1, 1);
-        morphs[7] = dom.createMorphAt(element31, 5, 5);
-        morphs[8] = dom.createElementMorph(element35);
-        morphs[9] = dom.createElementMorph(element36);
-        morphs[10] = dom.createMorphAt(element35, 3, 3);
-        morphs[11] = dom.createMorphAt(element35, 5, 5);
-        morphs[12] = dom.createMorphAt(element34, 5, 5);
-        morphs[13] = dom.createMorphAt(dom.childAt(element37, [1]), 1, 1);
-        morphs[14] = dom.createMorphAt(element37, 3, 3);
-        morphs[15] = dom.createMorphAt(dom.childAt(element37, [7]), 1, 1);
-        morphs[16] = dom.createMorphAt(dom.childAt(element38, [1]), 1, 1);
-        morphs[17] = dom.createMorphAt(dom.childAt(element38, [3]), 1, 1);
-        morphs[18] = dom.createMorphAt(dom.childAt(element38, [5]), 1, 1);
-        morphs[19] = dom.createMorphAt(dom.childAt(element33, [7]), 3, 3);
-        morphs[20] = dom.createMorphAt(element40, 1, 1);
-        morphs[21] = dom.createMorphAt(element40, 3, 3);
-        morphs[22] = dom.createMorphAt(element40, 5, 5);
-        morphs[23] = dom.createMorphAt(element40, 7, 7);
-        morphs[24] = dom.createMorphAt(element40, 9, 9);
-        morphs[25] = dom.createMorphAt(element39, 3, 3);
-        morphs[26] = dom.createElementMorph(element41);
-        morphs[27] = dom.createMorphAt(element39, 7, 7);
+        morphs[0] = dom.createMorphAt(element14, 1, 1);
+        morphs[1] = dom.createMorphAt(dom.childAt(element16, [1, 1]), 1, 1);
+        morphs[2] = dom.createMorphAt(dom.childAt(element17, [1]), 0, 0);
+        morphs[3] = dom.createMorphAt(element18, 1, 1);
+        morphs[4] = dom.createMorphAt(dom.childAt(element18, [3]), 1, 1);
+        morphs[5] = dom.createMorphAt(element18, 5, 5);
+        morphs[6] = dom.createMorphAt(dom.childAt(element18, [7]), 1, 1);
+        morphs[7] = dom.createMorphAt(element17, 5, 5);
+        morphs[8] = dom.createElementMorph(element21);
+        morphs[9] = dom.createElementMorph(element22);
+        morphs[10] = dom.createMorphAt(element21, 3, 3);
+        morphs[11] = dom.createMorphAt(element21, 5, 5);
+        morphs[12] = dom.createMorphAt(element20, 5, 5);
+        morphs[13] = dom.createMorphAt(dom.childAt(element23, [1]), 1, 1);
+        morphs[14] = dom.createMorphAt(element23, 3, 3);
+        morphs[15] = dom.createMorphAt(dom.childAt(element23, [7]), 1, 1);
+        morphs[16] = dom.createMorphAt(dom.childAt(element24, [1]), 1, 1);
+        morphs[17] = dom.createMorphAt(dom.childAt(element24, [3]), 1, 1);
+        morphs[18] = dom.createMorphAt(dom.childAt(element24, [5]), 1, 1);
+        morphs[19] = dom.createMorphAt(dom.childAt(element19, [7]), 3, 3);
+        morphs[20] = dom.createMorphAt(element26, 1, 1);
+        morphs[21] = dom.createMorphAt(element26, 3, 3);
+        morphs[22] = dom.createMorphAt(element26, 5, 5);
+        morphs[23] = dom.createMorphAt(element26, 7, 7);
+        morphs[24] = dom.createMorphAt(element26, 9, 9);
+        morphs[25] = dom.createMorphAt(element25, 3, 3);
+        morphs[26] = dom.createElementMorph(element27);
+        morphs[27] = dom.createMorphAt(element25, 7, 7);
         return morphs;
       },
-      statements: [["inline", "navigation-wrapper", [], ["type", "lodging", "coverImage", ["subexpr", "@mut", [["get", "model.lodging.coverImagePath", ["loc", [null, [2, 49], [2, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "user", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [2, 83], [2, 93]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [2, 95]]], 0, 0], ["block", "if", [["get", "model.lodging.profileImagePath", ["loc", [null, [8, 18], [8, 48]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 12], [12, 19]]]], ["content", "model.lodging.name", ["loc", [null, [16, 35], [16, 57]]], 0, 0, 0, 0], ["inline", "star-score", [], ["averageRating", ["subexpr", "@mut", [["get", "model.lodging.averageRating", ["loc", [null, [18, 39], [18, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-stars-light"], ["loc", [null, [18, 12], [18, 101]]], 0, 0], ["content", "model.lodging.numberOfRatings", ["loc", [null, [19, 79], [19, 112]]], 0, 0, 0, 0], ["inline", "price-range", [], ["priceRange", ["subexpr", "@mut", [["get", "model.lodging.priceRange", ["loc", [null, [20, 37], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-pricernage lodging-tile-pricernage-light"], ["loc", [null, [20, 12], [20, 125]]], 0, 0], ["block", "each", [["get", "model.lodging.facilities", ["loc", [null, [22, 22], [22, 46]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 14], [22, 101]]]], ["block", "if", [["get", "model.user.isLoggedIn", ["loc", [null, [25, 16], [25, 37]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [25, 10], [27, 17]]]], ["element", "action", ["findRoom"], ["on", "submit"], ["loc", [null, [42, 43], [42, 76]]], 0, 0], ["element", "action", ["setNumberOfPeople"], ["on", "change"], ["loc", [null, [43, 42], [43, 85]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "date", "type", "date", "min", ["subexpr", "@mut", [["get", "todayDate", ["loc", [null, [53, 80], [53, 89]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "date", ["loc", [null, [53, 96], [53, 100]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [53, 14], [53, 122]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "endDate", "type", "date", "value", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [54, 85], [54, 92]]], 0, 0, 0, 0]], [], [], 0, 0], "min", ["subexpr", "@mut", [["get", "minEndDate", ["loc", [null, [54, 99], [54, 109]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [54, 14], [54, 131]]], 0, 0], ["block", "if", [["get", "model.didFindRoom", ["loc", [null, [57, 18], [57, 35]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [57, 12], [70, 19]]]], ["content", "model.lodging.name", ["loc", [null, [73, 49], [73, 71]]], 0, 0, 0, 0], ["inline", "google-map", [], ["markerLat", ["subexpr", "@mut", [["get", "model.lodging.latitude", ["loc", [null, [75, 24], [75, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "markerLng", ["subexpr", "@mut", [["get", "model.lodging.longitude", ["loc", [null, [76, 24], [76, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "bounds", ["subexpr", "@mut", [["get", "model.lodging.city.bounds", ["loc", [null, [77, 21], [77, 46]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [74, 12], [78, 14]]], 0, 0], ["content", "model.lodging.description", ["loc", [null, [81, 14], [81, 43]]], 0, 0, 0, 0], ["block", "each", [["get", "model.lodging.areaInfo.landmarks", ["loc", [null, [95, 28], [95, 60]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [95, 20], [115, 29]]]], ["block", "each", [["get", "model.lodging.areaInfo.markets", ["loc", [null, [118, 28], [118, 58]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [118, 20], [138, 29]]]], ["block", "each", [["get", "model.lodging.areaInfo.airports", ["loc", [null, [141, 28], [141, 59]]], 0, 0, 0, 0]], [], 7, null, ["loc", [null, [141, 20], [161, 29]]]], ["block", "if", [["get", "model.lodging.photos", ["loc", [null, [171, 18], [171, 38]]], 0, 0, 0, 0]], [], 8, 9, ["loc", [null, [171, 12], [233, 19]]]], ["block", "radio-button", [], ["value", 1, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [249, 45], [249, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 10, null, ["loc", [null, [249, 10], [249, 118]]]], ["block", "radio-button", [], ["value", 2, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [250, 45], [250, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 11, null, ["loc", [null, [250, 10], [250, 118]]]], ["block", "radio-button", [], ["value", 3, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [251, 45], [251, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 12, null, ["loc", [null, [251, 10], [251, 118]]]], ["block", "radio-button", [], ["value", 4, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [252, 45], [252, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 13, null, ["loc", [null, [252, 10], [252, 118]]]], ["block", "radio-button", [], ["value", 5, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [253, 45], [253, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 14, null, ["loc", [null, [253, 10], [253, 118]]]], ["inline", "textarea", [], ["class", "review-textarea", "type", "text", "placeholder", "Write a Review", "value", ["subexpr", "@mut", [["get", "review_text", ["loc", [null, [255, 90], [255, 101]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [255, 8], [255, 123]]], 0, 0], ["element", "action", ["submitReviewAction"], [], ["loc", [null, [256, 45], [256, 76]]], 0, 0], ["block", "if", [["get", "model.hasError", ["loc", [null, [257, 14], [257, 28]]], 0, 0, 0, 0]], [], 15, null, ["loc", [null, [257, 8], [259, 15]]]]],
+      statements: [["inline", "navigation-wrapper", [], ["type", "lodging", "coverImage", ["subexpr", "@mut", [["get", "model.lodging.coverImagePath", ["loc", [null, [2, 49], [2, 77]]], 0, 0, 0, 0]], [], [], 0, 0], "user", ["subexpr", "@mut", [["get", "model.user", ["loc", [null, [2, 83], [2, 93]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [2, 2], [2, 95]]], 0, 0], ["block", "if", [["get", "model.lodging.profileImagePath", ["loc", [null, [8, 18], [8, 48]]], 0, 0, 0, 0]], [], 0, 1, ["loc", [null, [8, 12], [12, 19]]]], ["content", "model.lodging.name", ["loc", [null, [16, 35], [16, 57]]], 0, 0, 0, 0], ["inline", "star-score", [], ["averageRating", ["subexpr", "@mut", [["get", "model.lodging.averageRating", ["loc", [null, [18, 39], [18, 66]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-stars-light"], ["loc", [null, [18, 12], [18, 101]]], 0, 0], ["content", "model.lodging.numberOfRatings", ["loc", [null, [19, 79], [19, 112]]], 0, 0, 0, 0], ["inline", "price-range", [], ["priceRange", ["subexpr", "@mut", [["get", "model.lodging.priceRange", ["loc", [null, [20, 37], [20, 61]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "lodging-tile-pricernage lodging-tile-pricernage-light"], ["loc", [null, [20, 12], [20, 125]]], 0, 0], ["block", "each", [["get", "model.lodging.facilities", ["loc", [null, [22, 22], [22, 46]]], 0, 0, 0, 0]], [], 2, null, ["loc", [null, [22, 14], [22, 101]]]], ["block", "if", [["get", "model.user.isLoggedIn", ["loc", [null, [25, 16], [25, 37]]], 0, 0, 0, 0]], [], 3, null, ["loc", [null, [25, 10], [27, 17]]]], ["element", "action", ["findRoom"], ["on", "submit"], ["loc", [null, [42, 43], [42, 76]]], 0, 0], ["element", "action", ["setNumberOfPeople"], ["on", "change"], ["loc", [null, [43, 42], [43, 85]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "date", "type", "date", "min", ["subexpr", "@mut", [["get", "todayDate", ["loc", [null, [53, 80], [53, 89]]], 0, 0, 0, 0]], [], [], 0, 0], "value", ["subexpr", "@mut", [["get", "date", ["loc", [null, [53, 96], [53, 100]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [53, 14], [53, 122]]], 0, 0], ["inline", "input", [], ["class", "index-room-search-input", "id", "endDate", "type", "date", "value", ["subexpr", "@mut", [["get", "endDate", ["loc", [null, [54, 85], [54, 92]]], 0, 0, 0, 0]], [], [], 0, 0], "min", ["subexpr", "@mut", [["get", "minEndDate", ["loc", [null, [54, 99], [54, 109]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [54, 14], [54, 131]]], 0, 0], ["block", "if", [["get", "model.didFindRoom", ["loc", [null, [57, 18], [57, 35]]], 0, 0, 0, 0]], [], 4, null, ["loc", [null, [57, 12], [70, 19]]]], ["content", "model.lodging.name", ["loc", [null, [73, 49], [73, 71]]], 0, 0, 0, 0], ["inline", "google-map", [], ["markerLat", ["subexpr", "@mut", [["get", "model.lodging.latitude", ["loc", [null, [75, 24], [75, 46]]], 0, 0, 0, 0]], [], [], 0, 0], "markerLng", ["subexpr", "@mut", [["get", "model.lodging.longitude", ["loc", [null, [76, 24], [76, 47]]], 0, 0, 0, 0]], [], [], 0, 0], "bounds", ["subexpr", "@mut", [["get", "model.lodging.city.bounds", ["loc", [null, [77, 21], [77, 46]]], 0, 0, 0, 0]], [], [], 0, 0]], ["loc", [null, [74, 12], [78, 14]]], 0, 0], ["content", "model.lodging.description", ["loc", [null, [81, 14], [81, 43]]], 0, 0, 0, 0], ["block", "each", [["get", "model.lodging.areaInfo.landmarks", ["loc", [null, [95, 28], [95, 60]]], 0, 0, 0, 0]], [], 5, null, ["loc", [null, [95, 20], [115, 29]]]], ["block", "each", [["get", "model.lodging.areaInfo.markets", ["loc", [null, [118, 28], [118, 58]]], 0, 0, 0, 0]], [], 6, null, ["loc", [null, [118, 20], [138, 29]]]], ["block", "each", [["get", "model.lodging.areaInfo.airports", ["loc", [null, [141, 28], [141, 59]]], 0, 0, 0, 0]], [], 7, null, ["loc", [null, [141, 20], [161, 29]]]], ["block", "if", [["get", "model.lodging.photos", ["loc", [null, [171, 18], [171, 38]]], 0, 0, 0, 0]], [], 8, 9, ["loc", [null, [171, 12], [237, 19]]]], ["block", "radio-button", [], ["value", 1, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [253, 45], [253, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 10, null, ["loc", [null, [253, 10], [253, 118]]]], ["block", "radio-button", [], ["value", 2, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [254, 45], [254, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 11, null, ["loc", [null, [254, 10], [254, 118]]]], ["block", "radio-button", [], ["value", 3, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [255, 45], [255, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 12, null, ["loc", [null, [255, 10], [255, 118]]]], ["block", "radio-button", [], ["value", 4, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [256, 45], [256, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 13, null, ["loc", [null, [256, 10], [256, 118]]]], ["block", "radio-button", [], ["value", 5, "groupValue", ["subexpr", "@mut", [["get", "review_score", ["loc", [null, [257, 45], [257, 57]]], 0, 0, 0, 0]], [], [], 0, 0], "changed", "ratingChanged"], 14, null, ["loc", [null, [257, 10], [257, 118]]]], ["inline", "textarea", [], ["class", "review-textarea", "type", "text", "placeholder", "Write a Review", "value", ["subexpr", "@mut", [["get", "review_text", ["loc", [null, [259, 90], [259, 101]]], 0, 0, 0, 0]], [], [], 0, 0], "required", "required"], ["loc", [null, [259, 8], [259, 123]]], 0, 0], ["element", "action", ["submitReviewAction"], [], ["loc", [null, [260, 45], [260, 76]]], 0, 0], ["block", "if", [["get", "model.hasError", ["loc", [null, [261, 14], [261, 28]]], 0, 0, 0, 0]], [], 15, null, ["loc", [null, [261, 8], [263, 15]]]]],
       locals: [],
       templates: [child0, child1, child2, child3, child4, child5, child6, child7, child8, child9, child10, child11, child12, child13, child14, child15]
     };
@@ -16267,7 +16293,7 @@ define("ember-app/templates/reservation-details", ["exports"], function (exports
             morphs[0] = dom.createMorphAt(dom.childAt(fragment, [1, 1]), 3, 3);
             return morphs;
           },
-          statements: [["inline", "stripe-checkout", [], ["image", "/images/lodging-logo.png", "name", "Lodging", "description", "Pay and complete the reservation", "amount", ["subexpr", "@mut", [["get", "price", ["loc", [null, [151, 19], [151, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "label", "Pay with card and complete the reservation", "onToken", ["subexpr", "action", ["processStripeToken"], [], ["loc", [null, [153, 20], [153, 49]]], 0, 0], "isDisabled", ["subexpr", "@mut", [["get", "isNotLoggedIn", ["loc", [null, [154, 25], [154, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "confirm-reservation-button"], ["loc", [null, [147, 10], [156, 12]]], 0, 0]],
+          statements: [["inline", "stripe-checkout", [], ["image", "/images/assets/lodging-logo.png", "name", "Lodging", "description", "Pay and complete the reservation", "amount", ["subexpr", "@mut", [["get", "price", ["loc", [null, [151, 19], [151, 24]]], 0, 0, 0, 0]], [], [], 0, 0], "label", "Pay with card and complete the reservation", "onToken", ["subexpr", "action", ["processStripeToken"], [], ["loc", [null, [153, 20], [153, 49]]], 0, 0], "isDisabled", ["subexpr", "@mut", [["get", "isNotLoggedIn", ["loc", [null, [154, 25], [154, 38]]], 0, 0, 0, 0]], [], [], 0, 0], "class", "confirm-reservation-button"], ["loc", [null, [147, 10], [156, 12]]], 0, 0]],
           locals: [],
           templates: []
         };
@@ -17341,7 +17367,7 @@ catch(err) {
 /* jshint ignore:start */
 
 if (!runningTests) {
-  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+d871356b"});
+  require("ember-app/app")["default"].create({"name":"ember-app","version":"0.0.0+bceaf2fc"});
 }
 
 /* jshint ignore:end */

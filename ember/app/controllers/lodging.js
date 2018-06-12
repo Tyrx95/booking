@@ -45,6 +45,19 @@ export default Ember.Controller.extend({
     }
   }),*/
 
+  photos: computed('model.lodging.photos', function () {
+    let photos = [];
+    this.get('model.lodging.photos').forEach(function (photo) {
+      photos.pushObject({
+        src: photo.path,
+        w: 1024,
+        h: 768,
+        title: 'Lodging image'
+      })
+    })
+    return photos;
+  }),
+
   hasMap: computed('model.lodging.latitude', 'model.lodging.longitude', function () {
     return this.get('model.lodging.latitude') !== 0 && this.get('model.lodging.longitude') !== 0;
   }),

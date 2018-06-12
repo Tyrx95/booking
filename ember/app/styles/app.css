@@ -1675,6 +1675,14 @@ button.btn-remove-photo:hover {
   margin-right: 5px;
 }
 
+.admin-gallery{
+  width:25%;
+  object-fit: cover;
+  overflow: hidden;
+  height: 200px;
+  padding: 15px;
+}
+
 .areaInfo-item {
   margin-top: 10px;
   background-image: url('/images/assets/dot.png');
